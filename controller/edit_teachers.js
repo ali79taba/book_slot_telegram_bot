@@ -19,10 +19,13 @@ const mainView = require('../view/admin/main_view_admin');
 
 exports.saveFile = async (fileId) => {
     const link = await admin_bot.getFileLink(fileId);
-    const file = fs.createWriteStream(path.join(root_path, 'data', 'updated.xlsx'));
-    https.get(link, function (response) {
-        response.pipe(file);
-        updateDataBase.updateDataBase(path.join(root_path, 'data', 'updated.xlsx').toString());
+    const file = await fs.createWriteStream(path.join(root_path, 'data', 'updated.xlsx'));
+    https.get(link, async function (response) {
+        await response.pipe(file);
+        file.on('finish',function(){
+            updateDataBase.updateDataBase(path.join(root_path, 'data', 'updated.xlsx').toString());
+        });
+
     })
 };
 
@@ -47,9 +50,11 @@ exports.editTeacherExcel = (msg, match) => {
             console.log("this save file");
             this.saveFile(msg.document.file_id).then(() => {
                 admin_bot.sendMessage(chatId, "تغغیرات مورد نظر با موفقیت انجام شد.");
+                mainView.view(chatId);
             })
                 .catch((err) => {
                     admin_bot.sendMessage(chatId, "اعمال تغییرات با مشکل مواجه شد");
+                    mainView.view(chatId);
                 })
         }
     )

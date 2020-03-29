@@ -5,6 +5,7 @@ exports.view = (chatId)=>{
         "/edit_teachers_excel آپلود آخرین نسخه از دیتای اساتید" + "\n" +
         "/pending_list لیست افراد در لیست انتظار" + "\n" +
         "/show_student_info اطلاعات بیشتر از دانشجو" + "\n" +
-        "/accepting_request قبول یا رد کرند درخواست های دانشجویان" + "\n";
+        "/accepting_request قبول یا رد کرند درخواست های دانشجویان" + "\n" +
+        "/show_student_excel دریافت اخرین نسخه از دیتای دانشجویان" + "\n";
     admin_bot.sendMessage(chatId, response);
 };

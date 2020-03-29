@@ -1,5 +1,6 @@
 const fixNumber = require("../../util/persian_numbers");
 const admin_bot = require('../../util/admin_bot');
+const user_column = require('../../util/user_excel_col_number');
 
 const Teacher = require("../../models/teacher");
 const User = require('../../models/user');
@@ -14,7 +15,7 @@ const root_path = require('../../util/path');
 const Excel = require('exceljs');
 const mainView = require('../../view/admin/main_view_admin');
 
-module.exports.createLastVersionExcel = async () => {
+async function createLastVersionExcel () {
     const workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(path.join(root_path, 'data', 'student_empty_template.xlsx'));
     const worksheet = workbook.getWorksheet(1);
@@ -23,34 +24,34 @@ module.exports.createLastVersionExcel = async () => {
         const user = users[index];
         const row = worksheet.getRow(index * 2 + 3);
         const next_row = worksheet.getRow(index * 2 + 4);
-        row.getCell(teacher_column.ID_COLUMN).value = user.id;
-        row.getCell(teacher_column.FIRST_NAME_COLUMN).value = teacher.first_name;
-        row.getCell(teacher_column.LAST_NAME_COLUMN).value = teacher.last_name;
-        row.getCell(teacher_column.FIELD_COLUMN).value = teacher.field;
-        row.getCell(teacher_column.GERAYESG_COLUMN).value = teacher.gerayesh;
-        const timeSlots=  await TimeSlot.findAll({where:{teacherId:teacher.id}});
+        row.getCell(user_column.NAME_COLUMN).value = user.name;
+        row.getCell(user_column.GRADE_COLUMN).value = user.grade;
+        row.getCell(user_column.FIELD_COLUMN).value = user.field;
+        row.getCell(user_column.GERAYESG_COLUMN).value = user.gerayesh;
+        row.getCell(user_column.UNI_COLUMN).value = user.uni;
+        row.getCell(user_column.DESCRIPTION_COLUMN).value = user.intresting;
+        const timeSlots=  await TimeSlot.findAll({where:{userId:user.id}});
         for(const timeSlot_index in timeSlots){
             const timeSlot = timeSlots[timeSlot_index];
-            const col_number = teacher_column.START_SLOT_TIME_COLUMN + +timeSlot_index;
+            const col_number = user_column.START_SLOT_TIME_COLUMN + +timeSlot_index;
             timeSlot.col = col_number;
-            row.getCell(col_number).value = timeSlot.description;
-            if(timeSlot.userId){
-                next_row.getCell(col_number).value = '*';
-            }
+            next_row.getCell(col_number).value = timeSlot.description;
+            const teacher = await Teacher.findOne({where:{id:timeSlot.teacherId}});
+            row.getCell(col_number).value = teacher.first_name + " " + teacher.last_name;
             timeSlot.save();
         }
     }
 
-    await workbook.xlsx.writeFile(path.join(root_path, 'data', 'lastVersion.xlsx')).then(() => {
+    await workbook.xlsx.writeFile(path.join(root_path, 'data', 'lastVersion_student.xlsx')).then(() => {
     }).catch(err => {
         console.log(err);
     })
-};
+}
 
 
-exports.sendLastModify =(msg, match) => {
+exports.sendLastModify = (msg) => {
     const chatId = msg.chat.id;
-    updateExcel.createLastVersionExcel().then(async ()=>{
+    createLastVersionExcel().then(async ()=>{
         await admin_bot.sendDocument(
             chatId,
             path.join(root_path, 'data', 'lastVersion_student.xlsx'),

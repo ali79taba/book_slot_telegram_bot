@@ -17,6 +17,7 @@ const addTimeSlot = require('./controller/teacher_add_slot');
 const {teacherCallbackQueryHandler} = require("./controller/teacher/callback_query");
 
 const admin_edit_teacher = require('./controller/edit_teachers');
+const admin_show_student = require('./controller/admin/show_student_excel');
 const admin_auth = require('./controller/admin/authentication');
 const admin_request_handler = require('./controller/admin/requests');
 const {AdminCallbackQueryHandler} = require('./controller/admin/callback_query_handle');
@@ -26,6 +27,7 @@ bot.onText(/\/show_teachers/, Show_teachers.showTeachers);
 bot.onText(/\/book_time/, bookingTime.showAccepted);
 bot.onText(/\/show_slots/, bookingTime.showSlots);
 bot.onText(/\/delete_slot/, bookingTime.SelectSlotForDelete);
+bot.onText(/\/show_requests/);
 
 teacher_bot.onText(/\/start/, teacherControllerRegister.teacherRegister);
 teacher_bot.onText(/\/pending_students/, pendingHandle.pendingHandle);
@@ -45,7 +47,7 @@ admin_bot.onText(/\/show_teachers_excel/, (msg) => {
     admin_auth.auth(msg, admin_edit_teacher.sendLastModify);
 });
 admin_bot.onText(/\/show_student_excel/, (msg) =>{
-
+    admin_auth.auth(msg, admin_show_student.sendLastModify);
 });
 admin_bot.onText(/\/edit_teachers_excel/, (msg) => {
     admin_auth.auth(msg, admin_edit_teacher.editTeacherExcel);

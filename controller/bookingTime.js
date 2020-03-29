@@ -57,11 +57,17 @@ exports.showAccepted = async (msg, match) => {
     const chatId = msg.chat.id;
     const user = await User.findOne({where: {chatId: chatId}});
     const acceptedRequests = await Accepted.findAll({where: {userId: user.id}});
+
+    if(acceptedRequests.length === 0){
+        await bot.sendMessage(chatId, "فعلا استادی درخواست شما را تایید نکرده لطفا منتظر تایید استاد باشید");
+        main_view.show_list(chatId);
+        return;
+    }
+
     let response = "استاد هایی که در خواست شما را تایید کردند " + "\n";
     for (const id in acceptedRequests) {
         const teacherId = acceptedRequests[id].teacherId;
         const teacher = await Teacher.findOne({where: {id: teacherId}});
-        // console.log(teachers[id].name);
         response += `نام استاد :‌ ${teacher.first_name + " " + teacher.last_name} ` + "    " + `کد استاد :‌ ${teacher.id}` + "\n";
     }
     await bot.sendMessage(chatId, response);

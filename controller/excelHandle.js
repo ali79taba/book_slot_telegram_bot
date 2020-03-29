@@ -43,7 +43,10 @@ async function updateFields(row, secondRow) {
     const gerayesh = row.getCell(teacher_column.GERAYESG_COLUMN).value;
     const code = fixNumber(row.getCell(teacher_column.CODE_COLUMN).value);
     const contact = row.getCell(teacher_column.CONTACT_COLUMN).value;
-    const image_link = row.getCell(teacher_column.PIC_LINK_COLUMN).value;
+    let image_link = row.getCell(teacher_column.PIC_LINK_COLUMN).value;
+    if(image_link.hasOwnProperty('text')){
+        image_link = image_link.text;
+    }
     const description = row.getCell(teacher_column.DESCRIPTION_COLUMN).value;
 
     if (teacherId && teacherId !== "") {
@@ -51,6 +54,9 @@ async function updateFields(row, secondRow) {
             Teacher.destroy({where: {id: teacherId}});
             TimeSlot.destroy({where: {teacherId: teacherId}});
         } else {
+            console.log(image_link);
+            console.log(contact);
+            console.log(description);
             const teacher = await Teacher.findOne({where: {id: teacherId}});
             teacher.first_name = first_name;
             teacher.last_name = last_name;
@@ -66,7 +72,7 @@ async function updateFields(row, secondRow) {
         }
     } else {
         if (first_name && first_name !== "") {
-            Teacher.create({first_name: first_name, last_name: last_name, field: field, gerayesh: gerayesh, code: code})
+            Teacher.create({first_name: first_name, last_name: last_name, field: field, gerayesh: gerayesh, code: code, contact:contact, image_link:image_link, description : description})
                 .then(teacher => {
                     updateTimeSlot(row, secondRow, teacher.id);
                 })
