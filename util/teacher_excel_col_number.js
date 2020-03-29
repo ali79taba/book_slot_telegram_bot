@@ -1,0 +1,10 @@
+exports.ID_COLUMN = 2;
+exports.FIRST_NAME_COLUMN = 3;
+exports.LAST_NAME_COLUMN = 4;
+exports.FIELD_COLUMN = 5;
+exports.GERAYESG_COLUMN = 6;
+exports.CODE_COLUMN = 7;
+exports.CONTACT_COLUMN = 8;
+exports.PIC_LINK_COLUMN = 9;
+exports.DESCRIPTION_COLUMN = 10;
+exports.START_SLOT_TIME_COLUMN = 11;
