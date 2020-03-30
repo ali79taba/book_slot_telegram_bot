@@ -6,22 +6,39 @@ const Teacher = require("../models/teacher");
 const Pending = require("../models/pendingAccept");
 const Accepted = require('../models/acceptedRequest');
 const TimeSlot = require('../models/timeSlot');
+const Rejected = require('../models/reject');
 
 const show_teachers_view = require("../view/show_teachers");
 const view = require("../view/register");
 const main_view = require('../view/student_main_page');
 
-exports.bookSlot = (msg, user)=>{
+const teacher_bot = require('../util/teacher_bot');
+
+exports.bookSlot =async (msg, user)=>{
     const chatId = msg.chat.id;
     const slotTimeId = fixNumber(msg.text);
-    TimeSlot.findOne({where: {id:slotTimeId, userId: null}}).then(slotTime=>{
-        if(slotTime){
-            slotTime.userId = user.id;
-            slotTime.save();
-            bot.sendMessage(chatId, "بازه زمانی مورد نظر با موفقیت ثبت شد").then();
-            main_view.show_list(chatId);
-        }
-    })
+    const slots =await TimeSlot.findAll({where:{userId: user.id}});
+    const request_cnt = slots.length;
+    console.log(request_cnt);
+    if(request_cnt >= user.limit_slot_number){
+        bot.sendMessage(chatId, "شما بیش از این نمی توانید بازه مشاوره ثبت کنید برای ثبت بیشتر درخواست به آیدی @ADMIN مراجعه کنید.").then();
+        main_view.show_list(chatId);
+    }else{
+        TimeSlot.findOne({where: {id:slotTimeId, userId: null}}).then(async slotTime=>{
+            if(slotTime){
+                slotTime.userId = user.id;
+                slotTime.save();
+                const teacher = await Teacher.findOne({where:{id:slotTime.teacherId}});
+                const response = "بازه زمانی مورد نظر با موفقیت ثبت شد" + "\n" +
+                    "راه ارتباطی با استاد " + teacher.first_name  + " " + teacher.last_name + " : " + teacher.contact;
+                bot.sendMessage(chatId, response).then();
+                if(teacher.chatId){
+                    teacher_bot.sendMessage(teacher.chatId, "قرار های مشاوره شما با دانشجویان تغییراتی داشته برای مشاهده زمان های مشاوره /show_slots رو بزنید.").then();
+                }
+                main_view.show_list(chatId);
+            }
+        })
+    }
 };
 
 exports.SelectSlot = async (msg, user) => {
@@ -37,6 +54,7 @@ exports.SelectSlot = async (msg, user) => {
             }
             if(timeSlots.length === 0){
                 bot.sendMessage(chatId, "استاد انتخابی شما فعلا وقت خالی ندارند");
+                main_view.show_list(chatId);
             }else{
                 bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
                     .then(sentMessage => {
@@ -97,9 +115,9 @@ exports.showSlots = async (msg, match)=>{
                 const timeSlot = timeSlots[index];
                 const teacher = await Teacher.findOne({where:{id:timeSlot.teacherId}});
                 response += "کد بازه :‌ " + timeSlot.id + "\n" + "زمان بازه‌ :‌ " + timeSlot.description;
-                response += "\n" + "نام استاد :‌ " + teacher.first_name + " " + teacher.last_name +
-                    + "راه ارتباطی با استاد : " + teacher.contact + "\n" +
-                    + "--------\n";
+                response += "\n" + "نام استاد :‌ " + teacher.first_name + " " + teacher.last_name + "\n" +
+                    "راه ارتباطی با استاد : " + teacher.contact + "\n" +
+                    "--------\n";
             }
             await bot.sendMessage(chatId, response);
             main_view.show_list(chatId);

@@ -14,9 +14,9 @@ exports.whichWant = msg => {
     let teacherId = fix_number(msg.text);
     Teacher.findOne({where: {id: teacherId}}).then(async teacher => {
         if (teacher) {
-            await show_one_teacher(chatId, teacher).catch(err => {
-                console.log("ERR WHILE SHOW TEACHER PIC");
-            });
+            // await show_one_teacher(chatId, teacher).catch(err => {
+            //     console.log("ERR WHILE SHOW TEACHER PIC");
+            // });
             let response = "۱. درخواست از استاد" + "\n" + "۲.نشان دادن زمان های خالی استاد";
             bot.bot
                 .sendMessage(chatId, response, {
@@ -66,13 +66,13 @@ exports.show_teachers = async (chatId, teachers) => {
         response = "کد استاد مورد نظر خود را انتخاب کنید\n";
 
         for (const i in teachers) {
-            // await show_one_teacher(chatId, teachers[i]).catch(err=>{
-            //     console.log("ERR WHILE SHOW TEACHER PIC");
-            // })
-            const teacher = teachers[i];
-            caption += "نام استاد : " + teacher.first_name + " " + teacher.last_name + "\n" + "کد استاد : " + teacher.id + "\n------\n";
+            await show_one_teacher(chatId, teachers[i]).catch(err=>{
+                console.log("ERR WHILE SHOW TEACHER PIC");
+            });
+            // const teacher = teachers[i];
+            // caption += "نام استاد : " + teacher.first_name + " " + teacher.last_name + "\n" + "کد استاد : " + teacher.id + "\n------\n";
         }
-        await bot.bot.sendMessage(chatId, caption);
+        // await bot.bot.sendMessage(chatId, caption);
         await bot.bot
             .sendMessage(chatId, response, {
                 reply_markup: JSON.stringify({force_reply: true})

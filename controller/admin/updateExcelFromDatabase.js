@@ -38,7 +38,7 @@ module.exports.createLastVersionExcel = async () => {
             timeSlot.col = col_number;
             row.getCell(col_number).value = timeSlot.description;
             if(timeSlot.userId){
-                next_row.getCell(col_number).value = '*';
+                next_row.getCell(col_number).value = timeSlot.userId;
             }
             timeSlot.save();
         }

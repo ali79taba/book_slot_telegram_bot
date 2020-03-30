@@ -4,6 +4,8 @@ const view = require('../view/register');
 const fixNumber = require('../util/persian_numbers');
 const fields = require('../models/field');
 
+const callback_variable = require('../util/callback_handler_variable');
+
 
 const setUserName = (msg) => {
     const chatId = msg.chat.id;
@@ -52,25 +54,44 @@ exports.setField = (chatId, value) => {
         });
 };
 
-async function setGrade(msg) {
-    const chatId = msg.chat.id;
+exports.setGrade =async (chatId, grade)=>{
     const user = await User.findOne({where:{chatId:chatId}});
     if(user){
-        user.grade = msg.text;
+        user.grade = grade;
         user.save();
         view.setIntrested(chatId);
     }
-}
+};
 
 function getGrade(chatId){
-    bot.bot.sendMessage(chatId,"لطفا مطقع تحصیلی خود را وارد کنید", {reply_markup: JSON.stringify({force_reply: true})})
-        .then(sentMessage => {
-            bot.bot.onReplyToMessage(
-                sentMessage.chat.id,
-                sentMessage.message_id,
-                setGrade
-            );
-        });
+    const inline_keyboard = [
+        [{
+            text:"کارشناسی",
+            callback_data: callback_variable.GRADE + "_" + "کارشناسی",
+        }],
+        [{
+            text:"کارشناسی ارشد",
+            callback_data: callback_variable.GRADE + "_" + "کارشناسی ارشد",
+        }],
+        [{
+            text:"دکتری",
+            callback_data: callback_variable.GRADE + "_" + "دکتری",
+        }],
+    ];
+    const options = {
+        reply_markup: JSON.stringify({
+            inline_keyboard: inline_keyboard
+        })
+    };
+    bot.bot.sendMessage(chatId, 'مطقع تحصیلی خود را انتخاب کنید', options);
+    // bot.bot.sendMessage(chatId,"لطفا مطقع تحصیلی خود را وارد کنید", {reply_markup: JSON.stringify({force_reply: true})})
+    //     .then(sentMessage => {
+    //         bot.bot.onReplyToMessage(
+    //             sentMessage.chat.id,
+    //             sentMessage.message_id,
+    //             setGrade
+    //         );
+    //     });
 }
 
 async function setUni(msg){
@@ -131,17 +152,20 @@ exports.setIntresting = (msg) => {
 
 exports.createUser = (msg, match) => {
     const chatId = msg.chat.id;
-    const starter = "سلام\n" +
-        "به ربات تکنوتز خوش آمدید!\n" +
-        "تکنوتز تلاش می کند فرصت استفاده از تجربه فارغ التحصیلان دانشگاهی صنعت دیده را برای شما فراهم کند.\n" +
-        "شما برای استفاده از اساتید تکنوتز لازم است در این ربات ثبت نام کنید و اطلاعات خود را وارد کنید.\n" +
-        "این اطلاعات برای تایید حوزه تخصصی شما و معرفی اولیه شما به استاد استفاده می شود و در صورت تکمیل نبودن یا مرتبط نبودن اطلاعات ممکن است درخواست گفت و گوی شما با استاد توسط ادمین تایید نشود.\n" +
-        "لطفا برای شکل گیری بهتر گفت و گو اطلاعات خواسته شده را تکمیل نمایید.";
-    bot.bot.sendMessage(chatId, starter).then();
+    // const starter = "✋ سلام! \n" +
+    //     "\n" +
+    //     "🤖 من تکنوتزبات هستم و سعی میکنم شما رو در انتخاب مشاور برای موضوع پایان نامه یا پژوهشتون کمک کنم.\n" +
+    //     "\n" +
+    //     "مشاورایی که اینجا پیدا میکنید از پژوهشگرای بهترین دانشگاه های کشور هستند که سالها در صنعت فناوری کار کردند.\n" +
+    //     "\n" +
+    //     "بیشتر با هم آشنا بشیم؟\n" +
+    //     "\n" +
+    //     "--------";
+    // bot.bot.sendMessage(chatId, starter).then();
     User.findAll({where: {chatId: chatId}})
         .then(user => {
             if (user.length === 0) {
-                User.create({chatId: chatId});
+                User.create({chatId: chatId, limit_request_number:5, limit_slot_number: 5});
             }
         })
         .catch(err => {

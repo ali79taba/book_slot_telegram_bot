@@ -29,7 +29,7 @@ const User = sequelize.define("user", {
     allowNull: true
   },
   intresting: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: true
   },
   timeSlotId: {
@@ -45,9 +45,13 @@ const User = sequelize.define("user", {
     allowNull: true
   },
   limit_request_number:{
-    type:Sequelize.STRING,
+    type:Sequelize.INTEGER,
     allowNull: true
-  }
+  },
+  limit_slot_number:{
+    type:Sequelize.INTEGER,
+    allowNull: true
+  },
 });
 
 // User.associate = function(models) {

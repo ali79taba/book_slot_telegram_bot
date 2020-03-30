@@ -40,7 +40,11 @@ async function acceptOrDenied(msg, teacherId, userId) {
         }],
         [{
             text: "رد",
-            callback_data: "accepting" + "_" + teacherId + "_" +  userId + "_" + "no",
+            callback_data: "accepting" + "_" + teacherId + "_" + userId + "_" + "no",
+        }],
+        [{
+            text: "رد به همراه توضیحات",
+            callback_data: "accepting" + "_" + teacherId + "_" + userId + "_" + "no_with_text",
         }]
     ];
     const options = {
@@ -53,7 +57,7 @@ async function acceptOrDenied(msg, teacherId, userId) {
 
 exports.showStudent = (msg, teacherId) => {
     const chatId = msg.chat.id;
-    const userId = msg.text;
+    const userId = fixNumber(msg.text);
     Pending.findOne({where: {userId: fixNumber(userId), teacherId: teacherId}}).then(pend => {
         if (pend) {
             acceptOrDenied(msg, teacherId, userId).catch((err) => {

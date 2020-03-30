@@ -30,6 +30,7 @@ async function createLastVersionExcel () {
         row.getCell(user_column.GERAYESG_COLUMN).value = user.gerayesh;
         row.getCell(user_column.UNI_COLUMN).value = user.uni;
         row.getCell(user_column.DESCRIPTION_COLUMN).value = user.intresting;
+        row.getCell(user_column.PHONE_NUMBER_COLUMN).value = user.phone_number;
         const timeSlots=  await TimeSlot.findAll({where:{userId:user.id}});
         for(const timeSlot_index in timeSlots){
             const timeSlot = timeSlots[timeSlot_index];

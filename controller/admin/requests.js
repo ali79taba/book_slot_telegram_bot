@@ -11,21 +11,25 @@ const mainView = require('../../view/admin/main_view_admin');
 exports.show_pending = (msg) => {
     const chatId = msg.chat.id;
     Pending.findAll().then(async pendings => {
-        let response = "";
-        for (const index in pendings) {
-            const pending = pendings[index];
-            const teacherId = pending.teacherId;
-            const userId = pending.userId;
-            const teacher = await Teacher.findOne({where: {id: teacherId}});
-            const user = await User.findOne({where: {id: userId}});
-            response += "کد درخواست : " + pending.id + "\n" +
-                "کد دانشجو : " + user.id + "\n" +
-                "نام دانشجو : " + user.name + "\n" +
-                "رشته دانشجو :‌ " + user.field + "\n" +
-                "نام استاد درخواستی : " + teacher.first_name + " " + teacher.last_name + "\n---------\n";
+        if(pendings.length === 0){
+            admin_bot.sendMessage(chatId, "در خواستی وجود ندارد");
+        }else{
+            let response = "";
+            for (const index in pendings) {
+                const pending = pendings[index];
+                const teacherId = pending.teacherId;
+                const userId = pending.userId;
+                const teacher = await Teacher.findOne({where: {id: teacherId}});
+                const user = await User.findOne({where: {id: userId}});
+                response += "کد درخواست : " + pending.id + "\n" +
+                    "کد دانشجو : " + user.id + "\n" +
+                    "نام دانشجو : " + user.name + "\n" +
+                    "رشته دانشجو :‌ " + user.field + "\n" +
+                    "نام استاد درخواستی : " + teacher.first_name + " " + teacher.last_name + "\n---------\n";
 
+            }
+            await admin_bot.sendMessage(chatId, response);
         }
-        await admin_bot.sendMessage(chatId, response);
         mainView.view(chatId);
     });
 
@@ -36,18 +40,42 @@ async function show_student(msg){
     const userId = fixNumber(msg.text);
     const user =await User.findOne({where:{id:userId}});
     if(user){
-        const response = "نام :‌ " + user.name + "\n" +
+        let response = "نام :‌ " + user.name + "\n" +
             "رشته :‌ " + user.field + "\n" +
             "گرایش : " + user.gerayesh + "\n" +
             "دانشگاه ‌:‌ " + user.uni + "\n" +
             "مقطع :‌ " + user.grade + "\n" +
-            " رزومه : " + user.intresting + "\n";
-        await admin_bot.sendMessage(chatId, response);
-        mainView.view(chatId);
+            " رزومه : " + user.intresting + "\n" +
+            " کد : " + user.id + "\n" +
+            " شماره همراه : " + user.phone_number + "\n" +
+            "-------------\n"+
+            "در خواست های در لیست انتظار" + "\n";
+        const pendings =await Pending.findAll({where:{userId:userId}});
+        for(const index in pendings){
+            const pending = pendings[index];
+            response += "کد درخواست : " + pending.id + "\n";
+        }
+        const inline_keyboard = [
+            [{
+                text: "کمتر کردن محدودیت درخواست از استاد",
+                callback_data: "appendLimitRequestTeacher" + "_" + userId,
+            }],
+            [{
+                text: "کمتر کردن محدودیت درخواست زمان مشاوره",
+                callback_data: "appendLimitRequestTimeSlot" + "_" + userId,
+            }],
+        ];
+        const options = {
+            reply_markup: JSON.stringify({
+                inline_keyboard: inline_keyboard
+            })
+        };
+        await admin_bot.sendMessage(chatId, response, options);
     }else{
         await admin_bot.sendMessage(chatId,"کد وارد شده درست نمی باشد!");
         mainView.view(chatId);
     }
+
 }
 
 exports.get_student_info_code = (msg) => {
@@ -64,7 +92,7 @@ exports.get_student_info_code = (msg) => {
 };
 
 async function accepting_request(msg){
-    const pendingId = msg.text;
+    const pendingId = fixNumber(msg.text);
     const chatId = msg.chat.id;
     const pending = await Pending.findOne({where:{id:pendingId}});
     if(pending){

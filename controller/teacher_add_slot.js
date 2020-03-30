@@ -40,13 +40,18 @@ exports.showSlots = (msg, match) => {
     Teacher.findOne({where: {chatId: chatId}})
         .then(teacher => {
             if (teacher) {
-                TimeSlot.findAll({where: {teacherId: teacher.id}}).then(slots => {
+                TimeSlot.findAll({where: {teacherId: teacher.id}}).then(async slots => {
                     let response = "بازه های زمانی شما" + "\n";
                     for (let index in slots) {
                         let slot = slots[index];
-                        response += `کد بازه : ` + slot.id + "\n" + slot.description + "\n-----------\n";
+                        response += `کد بازه : ` + slot.id + "\n" + slot.description + "\n";
+                        if(slot.userId){
+                            const user = await User.findOne({where:{id:slot.userId}});
+                            response += "آقای " + user.name + " با کد " + user.id + " با شماره تماس " + user.phone_number + " در این زمان با شما مشاوره دارند."
+                        }
+                        response += "\n-----------\n";
                     }
-                    teacher_bot.sendMessage(chatId, response);
+                    await teacher_bot.sendMessage(chatId, response);
                     maiView.showMain(chatId);
                 })
             }

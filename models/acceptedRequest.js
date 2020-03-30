@@ -12,12 +12,10 @@ const AcceptedRequest = sequelize.define(
     },
     teacherId: {
       type: Sequelize.INTEGER,
-      primaryKey: true,
       allowNull: true
     },
     userId: {
       type: Sequelize.INTEGER,
-      primaryKey: true
     }
   }
 );

@@ -32,11 +32,11 @@ const Teacher = sequelize.define("teacher", {
     allowNull: true
   },
   image_link:{
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: true
   },
   description:{
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
     allowNull: true
   },
   contact:{
