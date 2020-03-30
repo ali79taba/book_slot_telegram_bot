@@ -9,6 +9,7 @@ const Sequelize = require('sequelize');
 
 const register = require("./controller/register");
 const userCallbackHandler = require('./controller/user/callbackHandler');
+const studentShowRequest = require('./controller/user/requests');
 
 const Show_teachers = require("./controller/show_teachers");
 const teacherControllerRegister = require('./controller/teacher_register');
@@ -29,7 +30,7 @@ bot.onText(/\/show_teachers/, Show_teachers.showTeachers);
 bot.onText(/\/book_time/, bookingTime.showAccepted);
 bot.onText(/\/show_slots/, bookingTime.showSlots);
 bot.onText(/\/delete_slot/, bookingTime.SelectSlotForDelete);
-// bot.onText(/\/show_requests/);
+bot.onText(/\/show_requests/, studentShowRequest.request_info);
 bot.on('callback_query', (msg)=>{
     userCallbackHandler(msg);
 });

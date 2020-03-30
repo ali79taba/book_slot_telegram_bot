@@ -109,6 +109,10 @@ async function accepting_request(msg){
             [{
                 text: "رد",
                 callback_data: "accepting" + "_" + teacher.id + "_" +  user.id + "_" + "no",
+            }],
+            [{
+                text: "رد به همراه توضیح",
+                callback_data: "accepting" + "_" + teacher.id + "_" +  user.id + "_" + "noWithDes",
             }]
         ];
         const options = {

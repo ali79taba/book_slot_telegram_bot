@@ -2,32 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/controller/user/callbackHandler.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/reject.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/callback_handler_variable.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/admin/callback_query_handle.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/admin/callback_query_handle.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/admin/requests.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/admin/requests.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/admin/show_student_excel.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/admin/show_student_excel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/admin/updateExcelFromDatabase.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/admin/updateExcelFromDatabase.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/bookingTime.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/bookingTime.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/pending_handle.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/pending_handle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/show_teachers.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/show_teachers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/teacher/callback_query.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/teacher/callback_query.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/teacher_add_slot.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/teacher_add_slot.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/user/requests.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user/requests.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/lastVersion.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/lastVersion.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/lastVersion_student.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/lastVersion_student.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/student_empty_template.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/student_empty_template.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/updatadeDataBase.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/updatadeDataBase.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/updated.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/updated.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/acceptedRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/acceptedRequest.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/teacher.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/teacher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/util/user_excel_col_number.js" beforeDir="false" afterPath="$PROJECT_DIR$/util/user_excel_col_number.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/show_teachers.js" beforeDir="false" afterPath="$PROJECT_DIR$/view/show_teachers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/student_main_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/view/student_main_page.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,8 +87,16 @@
       <workItem from="1585386411868" duration="8289000" />
       <workItem from="1585412632224" duration="15023000" />
       <workItem from="1585485629625" duration="18868000" />
-      <workItem from="1585554951697" duration="18709000" />
+      <workItem from="1585554951697" duration="22903000" />
     </task>
+    <task id="LOCAL-00001" summary="version 3">
+      <created>1585604533652</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1585604533652</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -116,7 +104,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="version 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="version 3" />
   </component>
   <component name="WindowStateProjectService">
     <state x="555" y="982" width="800" height="677" key="#Notifications" timestamp="1585386567689">
@@ -131,10 +120,10 @@
       <screen x="0" y="768" width="1920" height="1080" />
     </state>
     <state x="630" y="1111" width="804" height="418" key="#com.intellij.fileTypes.FileTypeChooser/0.768.1920.1080/283.0.1366.768@0.768.1920.1080" timestamp="1585208480937" />
-    <state x="454" y="824" width="1259" height="992" key="CommitChangelistDialog2" timestamp="1585497577794">
+    <state x="454" y="824" width="1259" height="992" key="CommitChangelistDialog2" timestamp="1585604533280">
       <screen x="0" y="768" width="1920" height="1080" />
     </state>
-    <state x="454" y="824" width="1259" height="992" key="CommitChangelistDialog2/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585497577794" />
+    <state x="454" y="824" width="1259" height="992" key="CommitChangelistDialog2/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585604533280" />
     <state x="744" y="1066" key="FileChooserDialogImpl" timestamp="1585024714265">
       <screen x="0" y="768" width="1920" height="1080" />
     </state>
@@ -155,32 +144,32 @@
       <screen x="0" y="768" width="1920" height="1080" />
     </state>
     <state width="1895" height="315" key="GridCell.Tab.-1.right/0.768.1920.1080/283.0.1366.768@0.768.1920.1080" timestamp="1585235175312" />
-    <state width="1895" height="297" key="GridCell.Tab.0.bottom" timestamp="1585604496936">
+    <state width="1895" height="297" key="GridCell.Tab.0.bottom" timestamp="1585610731936">
       <screen x="0" y="768" width="1920" height="1080" />
     </state>
     <state width="1895" height="315" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1585454420068" />
-    <state width="1895" height="297" key="GridCell.Tab.0.bottom/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585604496936" />
+    <state width="1895" height="297" key="GridCell.Tab.0.bottom/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585610731936" />
     <state width="1895" height="289" key="GridCell.Tab.0.bottom/0.768.1920.1080/283.0.1366.768@0.768.1920.1080" timestamp="1585402802776" />
     <state width="1895" height="289" key="GridCell.Tab.0.bottom/0.768.1920.1080/283.0.1366.768@283.0.1366.768" timestamp="1585411205156" />
-    <state width="1895" height="297" key="GridCell.Tab.0.center" timestamp="1585604496936">
+    <state width="1895" height="297" key="GridCell.Tab.0.center" timestamp="1585610731936">
       <screen x="0" y="768" width="1920" height="1080" />
     </state>
     <state width="1895" height="315" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1585454420068" />
-    <state width="1895" height="297" key="GridCell.Tab.0.center/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585604496936" />
+    <state width="1895" height="297" key="GridCell.Tab.0.center/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585610731936" />
     <state width="1895" height="289" key="GridCell.Tab.0.center/0.768.1920.1080/283.0.1366.768@0.768.1920.1080" timestamp="1585402802776" />
     <state width="1895" height="289" key="GridCell.Tab.0.center/0.768.1920.1080/283.0.1366.768@283.0.1366.768" timestamp="1585411205156" />
-    <state width="1895" height="297" key="GridCell.Tab.0.left" timestamp="1585604496935">
+    <state width="1895" height="297" key="GridCell.Tab.0.left" timestamp="1585610731936">
       <screen x="0" y="768" width="1920" height="1080" />
     </state>
     <state width="1895" height="315" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1585454420067" />
-    <state width="1895" height="297" key="GridCell.Tab.0.left/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585604496935" />
+    <state width="1895" height="297" key="GridCell.Tab.0.left/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585610731936" />
     <state width="1895" height="289" key="GridCell.Tab.0.left/0.768.1920.1080/283.0.1366.768@0.768.1920.1080" timestamp="1585402802776" />
     <state width="1895" height="289" key="GridCell.Tab.0.left/0.768.1920.1080/283.0.1366.768@283.0.1366.768" timestamp="1585411205156" />
-    <state width="1895" height="297" key="GridCell.Tab.0.right" timestamp="1585604496936">
+    <state width="1895" height="297" key="GridCell.Tab.0.right" timestamp="1585610731936">
       <screen x="0" y="768" width="1920" height="1080" />
     </state>
     <state width="1895" height="315" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1585454420068" />
-    <state width="1895" height="297" key="GridCell.Tab.0.right/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585604496936" />
+    <state width="1895" height="297" key="GridCell.Tab.0.right/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585610731936" />
     <state width="1895" height="289" key="GridCell.Tab.0.right/0.768.1920.1080/283.0.1366.768@0.768.1920.1080" timestamp="1585402802776" />
     <state width="1895" height="289" key="GridCell.Tab.0.right/0.768.1920.1080/283.0.1366.768@283.0.1366.768" timestamp="1585411205156" />
     <state width="1895" height="315" key="GridCell.Tab.1.bottom" timestamp="1585531318729">
@@ -279,10 +268,11 @@
       <screen x="0" y="768" width="1920" height="1080" />
     </state>
     <state width="600" height="440" key="javadoc.popup/0.768.1920.1080/283.0.1366.768@0.768.1920.1080" timestamp="1585030536324" />
-    <state x="479" y="900" key="run.anything.popup" timestamp="1585414727334">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="479" y="1663" key="run.anything.popup" timestamp="1585608913933">
+      <screen x="0" y="768" width="1920" height="1080" />
     </state>
     <state x="479" y="900" key="run.anything.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1585414727334" />
+    <state x="479" y="1663" key="run.anything.popup/0.768.1920.1080/0.0.1366.768@0.768.1920.1080" timestamp="1585608913933" />
     <state x="624" y="637" key="run.anything.popup/0.768.1920.1080/283.0.1366.768@0.768.1920.1080" timestamp="1585402706576" />
     <state x="623" y="1025" width="948" height="680" key="search.everywhere.popup" timestamp="1585492242317">
       <screen x="0" y="768" width="1920" height="1080" />
