@@ -1,6 +1,9 @@
 const Sequelize = require("sequelize");
+const appKeys = require('./app_keys');
 
-const sequelize = new Sequelize("booking", "root", "1234", {
+console.log(appKeys.DATABASE_NAME);
+
+const sequelize = new Sequelize(appKeys.DATABASE_NAME, appKeys.DATABASE_USER, appKeys.DATABASE_PASSWORD, {
   dialect: "mysql",
   host: "localhost",
   define: {

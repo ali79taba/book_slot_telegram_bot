@@ -1,5 +1,7 @@
+const appKey = require('./app_keys');
+
 const TelegramBot = require("node-telegram-bot-api");
-const token = "924758367:AAFzGp5wNWgkx1ReXpLQn9FlPPx29Ab2wSs";
+const token = appKey.TEACHER_BOT_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 module.exports = bot;
