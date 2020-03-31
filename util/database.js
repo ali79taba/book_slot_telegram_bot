@@ -6,6 +6,7 @@ console.log(appKeys.DATABASE_NAME);
 const sequelize = new Sequelize(appKeys.DATABASE_NAME, appKeys.DATABASE_USER, appKeys.DATABASE_PASSWORD, {
   dialect: "mysql",
   host: "localhost",
+  port: 3306,
   define: {
     charset: "utf8",
     collate: "utf8_general_ci"
