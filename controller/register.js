@@ -5,6 +5,7 @@ const fixNumber = require('../util/persian_numbers');
 const fields = require('../models/field');
 
 const callback_variable = require('../util/callback_handler_variable');
+const showTeacher = require('./show_teachers');
 
 
 const setUserName = (msg) => {
@@ -142,6 +143,7 @@ exports.setIntresting = (msg) => {
                     "/show_teachers" +
                     " ، استاد های گرایش خود را مشاهده کنید.";
                 bot.bot.sendMessage(chatId, response);
+                showTeacher.showTeachers(msg);
             }
         })
         .catch(err => {
@@ -152,16 +154,14 @@ exports.setIntresting = (msg) => {
 
 exports.createUser = (msg, match) => {
     const chatId = msg.chat.id;
-    // const starter = "✋ سلام! \n" +
-    //     "\n" +
-    //     "🤖 من تکنوتزبات هستم و سعی میکنم شما رو در انتخاب مشاور برای موضوع پایان نامه یا پژوهشتون کمک کنم.\n" +
-    //     "\n" +
-    //     "مشاورایی که اینجا پیدا میکنید از پژوهشگرای بهترین دانشگاه های کشور هستند که سالها در صنعت فناوری کار کردند.\n" +
-    //     "\n" +
-    //     "بیشتر با هم آشنا بشیم؟\n" +
-    //     "\n" +
-    //     "--------";
-    // bot.bot.sendMessage(chatId, starter).then();
+    const starter = "اون معرفی ربات به اینجا منتقل بشه و پست اول ثبت نام تبدیل بشه به:\n" +
+        "\n" +
+        "📝 بذارید در فرآیند ثبت نام کمکتون کنم تا به استاد موردنظرتون برسید.\n" +
+        "\n" +
+        "من اطلاعات زیر رو صرفا برای اتصال مناسب به استادی که بتونه کمکتون کنه و بهینه شدن وقتی که شما و استاد صرف می کنید به کار می برم.\n" +
+        "\n" +
+        "متشکرم از اعتماد شما";
+    bot.bot.sendMessage(chatId, starter).then();
     User.findAll({where: {chatId: chatId}})
         .then(user => {
             if (user.length === 0) {
@@ -171,7 +171,7 @@ exports.createUser = (msg, match) => {
         .catch(err => {
             console.log(err);
         });
-    let response = "لطفا نام و نام خانوادگی خود را وارد کنید";
+    let response = "لطفا نام و نام خانوادگی خودتون رو وارد کنید";
     bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
         .then(sentMessage => {
             bot.bot.onReplyToMessage(

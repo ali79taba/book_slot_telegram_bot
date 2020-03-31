@@ -3,7 +3,7 @@ const bot = require("../util/bot");
 const fields = require('../models/field');
 
 exports.setPhoneNumber = (chatId) => {
-    var response = "لطفا شماره همراه خود را وارد کنید"
+    let response = "لطفا شماره همراه خودتون رو وارد کنید (ارتباط شما با استاد از طریق این شماره برقرار خواهد شد)";
     bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
         .then(sentMessage => {
             bot.bot.onReplyToMessage(
