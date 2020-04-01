@@ -64,6 +64,10 @@ async function show_student(msg){
                 text: "کمتر کردن محدودیت درخواست زمان مشاوره",
                 callback_data: "appendLimitRequestTimeSlot" + "_" + userId,
             }],
+            [{
+                text: "رد یا تایید کردن درخواست دانشجو",
+                callback_data: "goToAcceptingPage" + "_" + chatId,
+            }],
         ];
         const options = {
             reply_markup: JSON.stringify({

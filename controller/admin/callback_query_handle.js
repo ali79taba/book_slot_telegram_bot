@@ -9,6 +9,7 @@ const admin_bot = require('../../util/admin_bot');
 const {bot} = require('../../util/bot');
 
 const mainView = require('../../view/admin/main_view_admin');
+const {accepting_request_get_id} = require('./requests');
 
 const fix_number = require('../../util/persian_numbers');
 
@@ -104,5 +105,12 @@ exports.AdminCallbackQueryHandler = (msg) => {
         addLimitRequestTeacher(chatId, arguments[1]).then();
     }else if(arguments[0] === "appendLimitRequestTimeSlot"){
         addLimitRequestSlotTime(chatId, arguments[1]).then();
+    }else if(arguments[0] === "goToAcceptingPage"){
+        const msg = {
+            chat:{
+                id:arguments[1]
+            }
+        };
+        accepting_request_get_id(msg);
     }
 };

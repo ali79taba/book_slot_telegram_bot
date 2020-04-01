@@ -17,21 +17,23 @@ exports.whichWant = msg => {
             // await show_one_teacher(chatId, teacher).catch(err => {
             //     console.log("ERR WHILE SHOW TEACHER PIC");
             // });
-            let response = "۱. درخواست از استاد" + "\n" + "۲.نشان دادن زمان های خالی استاد";
-            bot.bot
-                .sendMessage(chatId, response, {
-                    reply_markup: JSON.stringify({force_reply: true})
-                })
-                .then(sentMessage => {
-                    bot.bot.onReplyToMessage(
-                        sentMessage.chat.id,
-                        sentMessage.message_id,
-                        (message) => {
-                            show_teachers_controloer.controlHandler(message, teacherId);
-                        }
-                        // show_teachers_controloer.controlHandler
-                    );
-                });
+            // let response = "۱. درخواست از استاد" + "\n" + "۲.نشان دادن زمان های خالی استاد";
+            // bot.bot
+            //     .sendMessage(chatId, response, {
+            //         reply_markup: JSON.stringify({force_reply: true})
+            //     })
+            //     .then(sentMessage => {
+            //         bot.bot.onReplyToMessage(
+            //             sentMessage.chat.id,
+            //             sentMessage.message_id,
+            //             (message) => {
+            //                 show_teachers_controloer.controlHandler(message, teacherId);
+            //             }
+            //             // show_teachers_controloer.controlHandler
+            //         );
+            //     });
+            msg.text = "1";
+            await show_teachers_controloer.controlHandler(msg, teacherId);
         }else{
             bot.bot.sendMessage(chatId, "کد وارد شده غلط می باشد");
             main_view.show_list(chatId);
@@ -67,7 +69,7 @@ exports.show_teachers = async (chatId, teachers) => {
         await bot.bot.sendMessage(chatId, response);
     } else {
         let caption = "";
-        response = "کد استاد مورد نظر خود را انتخاب کنید\n";
+        response = "برای درخواست مشاوره از استاد کد استاد مورد نظر خود را انتخاب کنید\n";
 
         for (const i in teachers) {
             await show_one_teacher(chatId, teachers[i]).catch(err=>{
