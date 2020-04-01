@@ -18,27 +18,27 @@ exports.request_info = async (msg)=>{
     let response = "";
     if(pendings.length > 0){
 
-        response = "استاد هایی که درخواست شما به آن ها در لیست انتظار است :" + "\n";
+        response = "استاد هایی که درخواست شما به آن ها در لیست انتظار است :" + "\n" + "\n";
         for(const index in pendings){
             const pending = pendings[index];
             const teacher = await Teacher.findOne({where:{id:pending.teacherId}});
-            response += teacher.first_name + " " + teacher.last_name + "\n";
+            response += teacher.first_name + " " + teacher.last_name + "\n" + "\n";
         }
         response += "------------\n";
     }
 
     if(acceptings.length > 0){
-        response += "استاد هایی که درخواست شما را تایید کرده اند" + "\n";
+        response += "استاد هایی که درخواست شما را تایید کرده اند" + "\n" + "\n";
         for(const index in acceptings){
             const accepting = acceptings[index];
             const teacher = await Teacher.findOne({where:{id:accepting.teacherId}});
-            response += teacher.first_name + " " + teacher.last_name + "\n";
+            response += teacher.first_name + " " + teacher.last_name + "\n" + "\n";
         }
         response += "------------\n";
     }
 
     if(rejectings.length > 0){
-        response += "استاد هایی که درخواست شما را رد کرده اند" + "\n";
+        response += "استاد هایی که درخواست شما را رد کرده اند" + "\n" + "\n";
         for(const index in rejectings){
             const rejecting = rejectings[index];
             const teacher = await Teacher.findOne({where:{id:rejecting.teacherId}});
@@ -46,6 +46,7 @@ exports.request_info = async (msg)=>{
             if(rejecting.description){
                 response += "دلیل رد شدن درخواست : " + rejecting.description + "\n";
             }
+            response += "\n";
         }
     }
     if(response.length >0){

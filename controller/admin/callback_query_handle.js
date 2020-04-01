@@ -28,6 +28,10 @@ async function acceptingRequest(chatId, arguments) {
     } else if(type === "no"){
         Pending.destroy({where: {teacherId: teacherId, userId: userId}});
         Reject.create({teacherId: teacherId, userId: userId});
+        const teacher = await Teacher.findOne({where:{id:teacherId}});
+        const response = "درخواست مشاوره شما با استاد " + teacher.first_name + " " + teacher.last_name + " با کد (استاد) " + teacher.id + " رد شد." + "\n" ;
+        const user = await User.findOne({where:{id:userId}});
+        await bot.sendMessage(user.chatId, response).then();
         admin_bot.sendMessage(chatId, "درخواست دانشجوی مورد نظر رد شد").then();
         mainView.view(chatId);
     }else {
