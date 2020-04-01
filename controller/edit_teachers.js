@@ -40,6 +40,7 @@ exports.sendLastModify = (msg, match) => {
 };
 
 function getFile(msg) {
+    const chatId = msg.chat.id;
     console.log("this save file");
     saveFile(msg.document.file_id)
         .then(() => {

@@ -44,7 +44,7 @@ async function updateFields(row, secondRow) {
     const code = fixNumber(row.getCell(teacher_column.CODE_COLUMN).value);
     const contact = row.getCell(teacher_column.CONTACT_COLUMN).value;
     let image_link = row.getCell(teacher_column.PIC_LINK_COLUMN).value;
-    if(image_link.hasOwnProperty('text')){
+    if(image_link && image_link.hasOwnProperty('text')){
         image_link = image_link.text;
     }
     const description = row.getCell(teacher_column.DESCRIPTION_COLUMN).value;
@@ -64,8 +64,12 @@ async function updateFields(row, secondRow) {
             teacher.gerayesh = gerayesh;
             teacher.code = code;
             teacher.contact = contact;
-            teacher.image_link = image_link;
-            teacher.description = description;
+            if(image_link){
+                teacher.image_link = image_link;
+            }
+            if(description){
+                teacher.description = description;
+            }
             teacher.save();
             updateTimeSlot(row, secondRow, teacherId);
 
