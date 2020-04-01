@@ -7,10 +7,10 @@ const TimeSlot = require('../models/timeSlot');
 const fs = require('fs');
 const Stream = require('stream');
 const https = require('https');
-
 const path = require('path');
 const root_path = require('../util/path');
 const Excel = require('exceljs');
+const password_generator = require('generate-password');
 
 const teacher_column = require('../util/teacher_excel_col_number');
 
@@ -26,7 +26,7 @@ async function updateTimeSlot(firstRow, secondRow, teacherId) {
                     console.log(colNumber);
                     TimeSlot.create({teacherId: teacherId, description: cell.value, col: colNumber});
                 }
-            }else if (!slot && cell.value && cell.value !== "") {
+            } else if (!slot && cell.value && cell.value !== "") {
                 console.log(teacherId);
                 console.log(colNumber);
                 TimeSlot.create({teacherId: teacherId, description: cell.value, col: colNumber});
@@ -41,10 +41,10 @@ async function updateFields(row, secondRow) {
     const last_name = row.getCell(teacher_column.LAST_NAME_COLUMN).value;
     const field = row.getCell(teacher_column.FIELD_COLUMN).value;
     const gerayesh = row.getCell(teacher_column.GERAYESG_COLUMN).value;
-    const code = fixNumber(row.getCell(teacher_column.CODE_COLUMN).value);
+    let code = fixNumber(row.getCell(teacher_column.CODE_COLUMN).value);
     const contact = row.getCell(teacher_column.CONTACT_COLUMN).value;
     let image_link = row.getCell(teacher_column.PIC_LINK_COLUMN).value;
-    if(image_link && image_link.hasOwnProperty('text')){
+    if (image_link && image_link.hasOwnProperty('text')) {
         image_link = image_link.text;
     }
     const description = row.getCell(teacher_column.DESCRIPTION_COLUMN).value;
@@ -64,10 +64,10 @@ async function updateFields(row, secondRow) {
             teacher.gerayesh = gerayesh;
             teacher.code = code;
             teacher.contact = contact;
-            if(image_link){
+            if (image_link) {
                 teacher.image_link = image_link;
             }
-            if(description){
+            if (description) {
                 teacher.description = description;
             }
             teacher.save();
@@ -76,7 +76,21 @@ async function updateFields(row, secondRow) {
         }
     } else {
         if (first_name && first_name !== "") {
-            Teacher.create({first_name: first_name, last_name: last_name, field: field, gerayesh: gerayesh, code: code, contact:contact, image_link:image_link, description : description})
+            code = password_generator.generate({
+                length: 10,
+                numbers: true
+            });
+            Teacher
+                .create({
+                    first_name: first_name,
+                    last_name: last_name,
+                    field: field,
+                    gerayesh: gerayesh,
+                    code: code,
+                    contact: contact,
+                    image_link: image_link,
+                    description: description
+                })
                 .then(teacher => {
                     updateTimeSlot(row, secondRow, teacher.id);
                 })
