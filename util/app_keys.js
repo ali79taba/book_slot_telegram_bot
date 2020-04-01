@@ -1,4 +1,4 @@
-if(process.env.ENV === "prod"){
+if(process.env.NODE_ENV === "prod"){
     exports.DATABASE_NAME = process.env.DATABASE_NAME;
     exports.DATABASE_USER = process.env.DATABASE_USER;
     exports.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;

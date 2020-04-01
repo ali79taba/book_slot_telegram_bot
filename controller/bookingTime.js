@@ -21,7 +21,7 @@ exports.bookSlot =async (msg, user)=>{
     const request_cnt = slots.length;
     console.log(request_cnt);
     if(request_cnt >= user.limit_slot_number){
-        bot.sendMessage(chatId, "شما بیش از این نمی توانید بازه مشاوره ثبت کنید برای ثبت بیشتر درخواست به آیدی @ADMIN مراجعه کنید.").then();
+        bot.sendMessage(chatId, "شما بیش از این نمی توانید بازه مشاوره ثبت کنید برای ثبت بیشتر درخواست به آیدی @Technothes_Admin مراجعه کنید.").then();
         main_view.show_list(chatId);
     }else{
         TimeSlot.findOne({where: {id:slotTimeId, userId: null}}).then(async slotTime=>{

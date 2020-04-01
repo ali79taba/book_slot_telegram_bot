@@ -16,22 +16,21 @@ const updateExcel = require('./admin/updateExcelFromDatabase');
 const mainView = require('../view/admin/main_view_admin');
 
 
-
-exports.saveFile = async (fileId) => {
+async function saveFile(fileId){
     const link = await admin_bot.getFileLink(fileId);
     const file = await fs.createWriteStream(path.join(root_path, 'data', 'updated.xlsx'));
     https.get(link, async function (response) {
         await response.pipe(file);
-        file.on('finish',function(){
+        file.on('finish', function () {
             updateDataBase.updateDataBase(path.join(root_path, 'data', 'updated.xlsx').toString());
         });
 
     })
-};
+}
 
-exports.sendLastModify =(msg, match) => {
+exports.sendLastModify = (msg, match) => {
     const chatId = msg.chat.id;
-    updateExcel.createLastVersionExcel().then(async ()=>{
+    updateExcel.createLastVersionExcel().then(async () => {
         await admin_bot.sendDocument(
             chatId,
             path.join(root_path, 'data', 'lastVersion.xlsx'),
@@ -40,23 +39,27 @@ exports.sendLastModify =(msg, match) => {
     });
 };
 
+function getFile(msg) {
+    console.log("this save file");
+    saveFile(msg.document.file_id)
+        .then(() => {
+            admin_bot.sendMessage(chatId, "تغغیرات مورد نظر با موفقیت انجام شد.");
+            mainView.view(chatId);
+        })
+        .catch((err) => {
+            admin_bot.sendMessage(chatId, "اعمال تغییرات با مشکل مواجه شد");
+            mainView.view(chatId);
+        })
+}
+
 exports.editTeacherExcel = (msg, match) => {
     const chatId = msg.chat.id;
     admin_bot.sendMessage(chatId, "قبل از ارسال فایل مطمئن شوید که اکسل نهایی دریافت شده عوض نشده باشد");
     admin_bot.sendMessage(chatId, "فایل اصلاح شده را بفرستید");
+    admin_bot.removeListener('document', getFile);
     admin_bot.once(
         'document',
-        (msg) => {
-            console.log("this save file");
-            this.saveFile(msg.document.file_id).then(() => {
-                admin_bot.sendMessage(chatId, "تغغیرات مورد نظر با موفقیت انجام شد.");
-                mainView.view(chatId);
-            })
-                .catch((err) => {
-                    admin_bot.sendMessage(chatId, "اعمال تغییرات با مشکل مواجه شد");
-                    mainView.view(chatId);
-                })
-        }
+        getFile
     )
 };
 

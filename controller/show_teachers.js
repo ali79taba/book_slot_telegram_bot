@@ -57,7 +57,7 @@ exports.controlHandler = async (msg, teacherId) => {
     if (fixNumber(msg.text) === "1") {
 
         if (request_cnt >= user.limit_request_number) {
-            bot.bot.sendMessage(chatId, "شما بیش از این نمی توانید درخواست ثبت کنید برای ثبت بیشتر درخواست به آیدی @ADMIN مراجعه کنید.").then();
+            bot.bot.sendMessage(chatId, "شما بیش از این نمی توانید درخواست ثبت کنید برای ثبت بیشتر درخواست به آیدی @Technothes_Admin مراجعه کنید.").then();
             main_veiw.show_list(chatId);
         } else {
             User.findOne({where: {chatId: chatId}})
