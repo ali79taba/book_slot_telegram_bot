@@ -93,8 +93,7 @@ exports.setGerayesh = (chatId, field) => {
 };
 
 exports.setIntrested = (chatId) => {
-    var response = "لطفا برای بیان بهتر تجارب علمی و فناورانه خود، در مورد موارد زیر توضیح دهید.\n" +
-        "دانشگاه کارشناسی، گرایش و عنوان پروژه کارشناسی، تخصص های علمی و مهارتی فناورانه، تجربه های علمی و مهارتی فناورانه، اشتغال فعلی، ایمیل، شماره پیام رسانها";
+    let response = "لطفا در صورت انتخاب استاد راهنما، نام استاد راهنما خود را وارد کنید و در غیر این صورت، به صورت مختصر در مورد زمینه کاری و تجربیات علمی خود توضیح دهید.";
     bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
         .then(sentMessage => {
             bot.bot.onReplyToMessage(

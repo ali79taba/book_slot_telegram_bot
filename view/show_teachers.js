@@ -42,7 +42,11 @@ exports.whichWant = msg => {
 
 async function show_one_teacher(chatId, teacher) {
     let pic_stream;
-    const caption = "نام استاد : " + teacher.first_name + " " + teacher.last_name + "\n" + teacher.description + "\n" + "کد استاد : " + teacher.id;
+    let caption = "نام استاد : " + teacher.first_name + " " + teacher.last_name + "\n";
+    if(teacher.description){
+        caption += teacher.description + "\n";
+    }
+    caption +=  "کد استاد : " + teacher.id;
     let show_pic = true;
     // pic_stream = request.get(teacher.image_link).on('error', function(err) { show_pic = false});
     pic_stream = await request.get(teacher.image_link, function (error, response, body) {
@@ -68,6 +72,7 @@ exports.show_teachers = async (chatId, teachers) => {
         for (const i in teachers) {
             await show_one_teacher(chatId, teachers[i]).catch(err=>{
                 console.log("ERR WHILE SHOW TEACHER PIC");
+                console.log("teacherId : ", i);
             });
             // const teacher = teachers[i];
             // caption += "نام استاد : " + teacher.first_name + " " + teacher.last_name + "\n" + "کد استاد : " + teacher.id + "\n------\n";
