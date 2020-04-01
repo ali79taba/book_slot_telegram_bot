@@ -1,4 +1,5 @@
 const bot = require("../util/bot");
+const admin_bot = require('../util/admin_bot');
 const fixNumber = require("../util/persian_numbers");
 
 const User = require("../models/user");
@@ -7,7 +8,7 @@ const Pending = require("../models/pendingAccept");
 const TimeSlot = require('../models/timeSlot');
 const Accept = require('../models/acceptedRequest');
 const Reject = require('../models/reject');
-
+const Admin = require('../models/admin');
 
 const show_teachers_view = require("../view/show_teachers");
 const view = require("../view/register");
@@ -67,7 +68,12 @@ exports.controlHandler = async (msg, teacherId) => {
                 .catch(err => {
                     console.log(err);
                 });
-            const response = "درخواست شما برای استاد ثبت شد. رزومه شما بررسی و به درخواست شما پاسخ داده خواهد شد. در صورت تمایل برای اصلاح رزومه از دستور /start استفاده کنید."
+            const response = "درخواست شما برای استاد ثبت شد. رزومه شما بررسی و به درخواست شما پاسخ داده خواهد شد. در صورت تمایل برای اصلاح رزومه از دستور /start استفاده کنید.";
+            Admin.findAll().then(admins=>{
+                admins.forEach(admin=>{
+                   admin_bot.sendMessage(admin.chatId,"در خواستی فرستاده شده است لطفا لیست درخواست ها را بررسی فرمایید. /pending_list");
+                });
+            });
             bot.bot.sendMessage(chatId, response).then();
             main_veiw.show_list(chatId);
         }
