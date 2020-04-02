@@ -18,18 +18,24 @@ async function updateTimeSlot(firstRow, secondRow, teacherId) {
     console.log(teacherId);
     firstRow.eachCell(async (cell, colNumber) => {
         if (colNumber >= teacher_column.START_SLOT_TIME_COLUMN) {
+            let cellValue = cell.value;
+            if(cellValue.hasOwnProperty('richText')){
+                cellValue = cellValue.richText[1].text;
+            }
+            console.log("I am in TimeSlots");
+            console.log(cellValue);
             const slot = await TimeSlot.findOne({where: {teacherId: teacherId, col: colNumber}});
-            if (slot && slot.description !== cell.value) {
+            if (slot && slot.description !== cellValue) {
                 slot.destroy({where: {teacherId: teacherId, col: colNumber}});
-                if (cell.value && cell.value !== "") {
+                if (cellValue && (cellValue !== "")) {
                     console.log(teacherId);
                     console.log(colNumber);
-                    TimeSlot.create({teacherId: teacherId, description: cell.value, col: colNumber});
+                    TimeSlot.create({teacherId: teacherId, description: cellValue, col: colNumber});
                 }
-            } else if (!slot && cell.value && cell.value !== "") {
+            } else if (!slot && cellValue && (cellValue !== "")) {
                 console.log(teacherId);
                 console.log(colNumber);
-                TimeSlot.create({teacherId: teacherId, description: cell.value, col: colNumber});
+                TimeSlot.create({teacherId: teacherId, description: cellValue, col: colNumber});
             }
         }
     })
@@ -48,15 +54,22 @@ async function updateFields(row, secondRow) {
         image_link = image_link.text;
     }
     const description = row.getCell(teacher_column.DESCRIPTION_COLUMN).value;
-
+    // console.log("---------");
+    // console.log(image_link);
+    // console.log(contact);
+    // console.log(description);
+    // console.log(teacherId);
+    // console.log(last_name);
+    // console.log(field);
+    // console.log(first_name);
+    // console.log(code);
+    // console.log(gerayesh);
+    // console.log("------------");
     if (teacherId && teacherId !== "") {
         if (!first_name || first_name === "") {
             Teacher.destroy({where: {id: teacherId}});
             TimeSlot.destroy({where: {teacherId: teacherId}});
         } else {
-            console.log(image_link);
-            console.log(contact);
-            console.log(description);
             const teacher = await Teacher.findOne({where: {id: teacherId}});
             teacher.first_name = first_name;
             teacher.last_name = last_name;
