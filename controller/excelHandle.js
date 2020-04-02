@@ -1,8 +1,10 @@
 const fixNumber = require("../util/persian_numbers");
 const admin_bot = require('../util/admin_bot');
+const {bot} = require('../util/bot');
 
 const Teacher = require("../models/teacher");
 const TimeSlot = require('../models/timeSlot');
+const User = require('../models/user');
 
 const fs = require('fs');
 const Stream = require('stream');
@@ -14,8 +16,42 @@ const password_generator = require('generate-password');
 
 const teacher_column = require('../util/teacher_excel_col_number');
 
-async function updateTimeSlot(firstRow, secondRow, teacherId) {
+function getCellValue(row, colNumber){
+    if(row.values.length < colNumber){
+        return null;
+    }
+    console.log("colNumber : ", colNumber);
+    let cellValue = row.getCell(colNumber).value;
+    if(!cellValue){
+        return null;
+    }
+    if(cellValue.hasOwnProperty('richText')){
+        cellValue = cellValue.richText[1].text;
+    }
+    return cellValue;
+}
+
+async function removeRemoved(row, teacherId){
+    const timeSlots = await TimeSlot.findAll({where:{teacherId:teacherId}});
+    timeSlots.forEach((timeSlot)=>{
+        const value = getCellValue(row , timeSlot.col);
+        if(value !== timeSlot.description){
+            User.findOne({where:{id:timeSlot.userId}}).then(user=>{
+                if(user){
+                    bot.sendMessage(user.chatId, "یکی از بازه های انتخابی شما حذف شده و استاد دیگر در آن زمان نمی تواند مشاوره بدهد لطفا دوباره بازه زمانی خود را انتخاب کنید.").then();
+                }
+            });
+            timeSlot.destroy().then(
+                console.log("######## destorying slot : ", value)
+            );
+        }
+    });
+}
+
+async function updateTimeSlot(firstRow, secondRow, teacherId, colNumber) {
     console.log(teacherId);
+    const timeSlots = await TimeSlot.findAll({where:{teacherId:teacherId}});
+    await removeRemoved(firstRow, teacherId);
     firstRow.eachCell(async (cell, colNumber) => {
         if (colNumber >= teacher_column.START_SLOT_TIME_COLUMN) {
             let cellValue = cell.value;
@@ -25,14 +61,7 @@ async function updateTimeSlot(firstRow, secondRow, teacherId) {
             console.log("I am in TimeSlots");
             console.log(cellValue);
             const slot = await TimeSlot.findOne({where: {teacherId: teacherId, col: colNumber}});
-            if (slot && slot.description !== cellValue) {
-                slot.destroy({where: {teacherId: teacherId, col: colNumber}});
-                if (cellValue && (cellValue !== "")) {
-                    console.log(teacherId);
-                    console.log(colNumber);
-                    TimeSlot.create({teacherId: teacherId, description: cellValue, col: colNumber});
-                }
-            } else if (!slot && cellValue && (cellValue !== "")) {
+            if (!slot && cellValue && (cellValue !== "")) {
                 console.log(teacherId);
                 console.log(colNumber);
                 TimeSlot.create({teacherId: teacherId, description: cellValue, col: colNumber});
@@ -41,7 +70,7 @@ async function updateTimeSlot(firstRow, secondRow, teacherId) {
     })
 }
 
-async function updateFields(row, secondRow) {
+async function updateFields(row, secondRow, colNumber) {
     const teacherId = fixNumber(row.getCell(teacher_column.ID_COLUMN).value);
     const first_name = row.getCell(teacher_column.FIRST_NAME_COLUMN).value;
     const last_name = row.getCell(teacher_column.LAST_NAME_COLUMN).value;
@@ -105,7 +134,7 @@ async function updateFields(row, secondRow) {
                     description: description
                 })
                 .then(teacher => {
-                    updateTimeSlot(row, secondRow, teacher.id);
+                    updateTimeSlot(row, secondRow, teacher.id, colNumber);
                 })
         }
     }
@@ -113,8 +142,8 @@ async function updateFields(row, secondRow) {
 }
 
 
-exports.updateRow = (firstRow, secondRow) => {
-    updateFields(firstRow, secondRow);
+exports.updateRow = (firstRow, secondRow, colNumber) => {
+    updateFields(firstRow, secondRow, colNumber);
 };
 
 exports.createUpdatedExcel = () => {
