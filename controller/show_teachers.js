@@ -13,6 +13,7 @@ const Admin = require('../models/admin');
 const show_teachers_view = require("../view/show_teachers");
 const view = require("../view/register");
 const main_veiw = require('../view/student_main_page');
+const functionHandler = require('./user/function_handler');
 
 exports.showTeachers = (msg, match) => {
     const chatId = msg.chat.id;
@@ -58,9 +59,11 @@ exports.controlHandler = async (msg, teacherId) => {
     if (fixNumber(msg.text) === "1") {
 
         if (request_cnt >= user.limit_request_number) {
+            functionHandler.updateState(chatId, "");
             bot.bot.sendMessage(chatId, "شما بیش از این نمی توانید درخواست ثبت کنید برای ثبت بیشتر درخواست به آیدی @Technothes_Admin مراجعه کنید.").then();
             main_veiw.show_list(chatId);
         } else {
+            functionHandler.updateState(chatId, "");
             User.findOne({where: {chatId: chatId}})
                 .then(user => {
                     Pending.create({teacherId: teacherId, userId: user.id})
@@ -78,6 +81,7 @@ exports.controlHandler = async (msg, teacherId) => {
             main_veiw.show_list(chatId);
         }
     } else if (fixNumber(msg.text) === "2") {
+        functionHandler.updateState(chatId, "");
         showTeacherSlots(chatId, teacherId);
         main_veiw.show_list(chatId);
     }

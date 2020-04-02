@@ -11,11 +11,14 @@ const Rejected = require('../models/reject');
 const show_teachers_view = require("../view/show_teachers");
 const view = require("../view/register");
 const main_view = require('../view/student_main_page');
+const functionHandler = require('./user/function_handler');
 
 const teacher_bot = require('../util/teacher_bot');
 
-exports.bookSlot =async (msg, user)=>{
+exports.bookSlot =async (msg)=>{
     const chatId = msg.chat.id;
+    functionHandler.updateState(chatId, "1");
+    const user = await User.findOne({where:{chatId:chatId}});
     const slotTimeId = fixNumber(msg.text);
     const slots =await TimeSlot.findAll({where:{userId: user.id}});
     const request_cnt = slots.length;
@@ -41,8 +44,9 @@ exports.bookSlot =async (msg, user)=>{
     }
 };
 
-exports.SelectSlot = async (msg, user) => {
+exports.SelectSlot = async (msg) => {
     const chatId = msg.chat.id;
+    const user = await User.findOne({where:{chatId:chatId}});
     const teacherId = fixNumber(msg.text);
     const accepted = await Accepted.findOne({where: {teacherId: teacherId, userId:user.id}});
     if (accepted) {
@@ -54,18 +58,21 @@ exports.SelectSlot = async (msg, user) => {
             }
             if(timeSlots.length === 0){
                 bot.sendMessage(chatId, "استاد انتخابی شما فعلا وقت خالی ندارند");
+                functionHandler.updateState(chatId, "1");
                 main_view.show_list(chatId);
             }else{
-                bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
-                    .then(sentMessage => {
-                        bot.onReplyToMessage(
-                            sentMessage.chat.id,
-                            sentMessage.message_id,
-                            (msg) => {
-                                this.bookSlot(msg,user);
-                            }
-                        );
-                    });
+                functionHandler.updateState(chatId, "get_teacher_id_for_get_slot");
+                bot.sendMessage(chatId, response);
+                // bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
+                //     .then(sentMessage => {
+                //         bot.onReplyToMessage(
+                //             sentMessage.chat.id,
+                //             sentMessage.message_id,
+                //             (msg) => {
+                //                 this.bookSlot(msg,user);
+                //             }
+                //         );
+                //     });
             }
         })
     }
@@ -78,6 +85,7 @@ exports.showAccepted = async (msg, match) => {
 
     if(acceptedRequests.length === 0){
         await bot.sendMessage(chatId, "فعلا استادی درخواست شما را تایید نکرده لطفا منتظر تایید استاد باشید");
+        functionHandler.updateState(chatId, "");
         main_view.show_list(chatId);
         return;
     }
@@ -89,17 +97,19 @@ exports.showAccepted = async (msg, match) => {
         response += `نام استاد :‌ ${teacher.first_name + " " + teacher.last_name} ` + "    " + `کد استاد :‌ ${teacher.id}` + "\n";
     }
     await bot.sendMessage(chatId, response);
+    functionHandler.updateState(chatId, 'get_teacher_code_for_booking');
     response = "برای ادامه مرحله کد استاد را وارد کنید" + "\n";
-    await bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
-        .then(sentMessage => {
-            bot.onReplyToMessage(
-                sentMessage.chat.id,
-                sentMessage.message_id,
-                (msg) => {
-                    this.SelectSlot(msg, user);
-                }
-            );
-        });
+    await bot.sendMessage(chatId, response);
+    // await bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
+    //     .then(sentMessage => {
+    //         bot.onReplyToMessage(
+    //             sentMessage.chat.id,
+    //             sentMessage.message_id,
+    //             (msg) => {
+    //                 this.SelectSlot(msg, user);
+    //             }
+    //         );
+    //     });
 };
 
 exports.showSlots = async (msg, match)=>{
@@ -123,10 +133,12 @@ exports.showSlots = async (msg, match)=>{
             main_view.show_list(chatId);
         }
     }
+    functionHandler.updateState(chatId, '1');
 };
 
-exports.deleteSlot =async (msg, user) => {
+exports.deleteSlot =async (msg) => {
     const chatId = msg.chat.id;
+    const user = await User.findOne({where:{chatId:chatId}});
     const slotId = fixNumber(msg.text);
     const timeSlot = await TimeSlot.findOne({where: {id:slotId, userId:user.id}});
     if(timeSlot){
@@ -136,12 +148,14 @@ exports.deleteSlot =async (msg, user) => {
     }else{
         await bot.sendMessage(chatId, "کد بازه زمانی انتخاب شده درست نیست.");
     }
+    functionHandler.updateState(chatId, "1");
     main_view.show_list(chatId);
 
 };
 
 exports.SelectSlotForDelete =async (msg, match) => {
     const chatId = msg.chat.id;
+    functionHandler.updateState(chatId, "get_slotId_for_delete");
     const user = await User.findOne({where: {chatId:chatId}});
     const response = "برای حذف بازه های انتخابی خود کد بازه را وارد کنید";
     bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})

@@ -1,30 +1,37 @@
 const register = require('../controller/register');
+const functionHandler = require('../controller/user/function_handler');
+
 const bot = require("../util/bot");
+
 const fields = require('../models/field');
+
 
 exports.setPhoneNumber = (chatId) => {
     let response = "لطفا شماره همراه خودتون رو وارد کنید (ارتباط شما با استاد از طریق این شماره برقرار خواهد شد)";
-    bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
-        .then(sentMessage => {
-            bot.bot.onReplyToMessage(
-                sentMessage.chat.id,
-                sentMessage.message_id,
-                register.setPhoneNumber
-            );
-        });
+    bot.bot.sendMessage(chatId, response);
+    // bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
+    //     .then(sentMessage => {
+    //         bot.bot.onReplyToMessage(
+    //             sentMessage.chat.id,
+    //             sentMessage.message_id,
+    //             register.setPhoneNumber
+    //         );
+    //     });
 };
 
 function getFieldAnother(chatId) {
-    bot.bot.sendMessage(chatId, 'نام رشته خود را وارد کنید', {reply_markup: JSON.stringify({force_reply: true})})
-        .then(sentMessage => {
-            bot.bot.onReplyToMessage(
-                sentMessage.chat.id,
-                sentMessage.message_id,
-                (msg)=>{
-                    register.setField(msg.chat.id, msg.text);
-                }
-            );
-        });
+    functionHandler.updateState(chatId, 'set_another_field');
+    bot.bot.sendMessage(chatId, 'نام رشته خود را وارد کنید');
+    // bot.bot.sendMessage(chatId, 'نام رشته خود را وارد کنید', {reply_markup: JSON.stringify({force_reply: true})})
+    //     .then(sentMessage => {
+    //         bot.bot.onReplyToMessage(
+    //             sentMessage.chat.id,
+    //             sentMessage.message_id,
+    //             (msg)=>{
+    //                 register.setField(msg.chat.id, msg.text);
+    //             }
+    //         );
+    //     });
 }
 
 exports.setField = (chatId) => {
@@ -70,6 +77,7 @@ exports.setGerayesh = (chatId, field) => {
                 inline_keyboard: inline_keyboard
             })
         };
+        functionHandler.updateState(chatId, 'get_uni');
         bot.bot.sendMessage(chatId, 'گرایش خود را انتخاب کنید', options).then((msg) => {
             bot.bot.once('callback_query', (msg) => {
                 const value = msg.data;
@@ -77,6 +85,7 @@ exports.setGerayesh = (chatId, field) => {
                 register.setGerayesh(chatId, value)
             })
         })
+
     }else{
         let response = "گرایش خود را وارد کنید.";
         bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
@@ -93,13 +102,15 @@ exports.setGerayesh = (chatId, field) => {
 };
 
 exports.setIntrested = (chatId) => {
+    functionHandler.updateState(chatId, 'setIntresting');
     let response = "لطفا در صورت انتخاب استاد راهنما، نام استاد راهنما خود را وارد کنید و در غیر این صورت، به صورت مختصر در مورد زمینه کاری و تجربیات علمی خود توضیح دهید.";
-    bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
-        .then(sentMessage => {
-            bot.bot.onReplyToMessage(
-                sentMessage.chat.id,
-                sentMessage.message_id,
-                register.setIntresting
-            );
-        });
+    bot.bot.sendMessage(chatId, response);
+    // bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
+    //     .then(sentMessage => {
+    //         bot.bot.onReplyToMessage(
+    //             sentMessage.chat.id,
+    //             sentMessage.message_id,
+    //             register.setIntresting
+    //         );
+    //     });
 };

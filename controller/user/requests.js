@@ -7,6 +7,7 @@ const Teacher = require("../../models/teacher");
 const {bot} = require('../../util/bot');
 
 const mainView = require('../../view/student_main_page');
+const functionHandler = require('./function_handler');
 
 exports.request_info = async (msg)=>{
     const chatId = msg.chat.id;
@@ -54,5 +55,6 @@ exports.request_info = async (msg)=>{
     }else{
         await bot.sendMessage(chatId, response).then();
     }
+    functionHandler.updateState(chatId, "1");
     mainView.show_list(chatId);
 };

@@ -1,4 +1,5 @@
 const show_teachers_controloer = require("../controller/show_teachers");
+const functionHadler = require('../controller/user/function_handler');
 
 const bot = require("../util/bot");
 const fix_number = require('../util/persian_numbers');
@@ -9,7 +10,7 @@ const main_view = require('./student_main_page');
 
 const Teacher = require('../models/teacher');
 
-exports.whichWant = msg => {
+exports.whichWant = (msg) => {
     const chatId = msg.chat.id;
     let teacherId = fix_number(msg.text);
     Teacher.findOne({where: {id: teacherId}}).then(async teacher => {
@@ -35,6 +36,7 @@ exports.whichWant = msg => {
             msg.text = "1";
             await show_teachers_controloer.controlHandler(msg, teacherId);
         }else{
+            functionHadler.updateState(chatId, "");
             bot.bot.sendMessage(chatId, "کد وارد شده غلط می باشد");
             main_view.show_list(chatId);
         }
@@ -67,10 +69,11 @@ exports.show_teachers = async (chatId, teachers) => {
     if (teachers.length === 0) {
         response = "فعلا استادی در گرایش شما وجود ندارد";
         await bot.bot.sendMessage(chatId, response);
+        functionHadler.updateState(chatId, '');
     } else {
         let caption = "";
         response = "برای درخواست مشاوره از استاد کد استاد مورد نظر خود را انتخاب کنید\n";
-
+        functionHadler.updateState(chatId,'get_teacher_code');
         for (const i in teachers) {
             await show_one_teacher(chatId, teachers[i]).catch(err=>{
                 console.log("ERR WHILE SHOW TEACHER PIC");
@@ -80,16 +83,17 @@ exports.show_teachers = async (chatId, teachers) => {
             // caption += "نام استاد : " + teacher.first_name + " " + teacher.last_name + "\n" + "کد استاد : " + teacher.id + "\n------\n";
         }
         // await bot.bot.sendMessage(chatId, caption);
-        await bot.bot
-            .sendMessage(chatId, response, {
-                reply_markup: JSON.stringify({force_reply: true})
-            })
-            .then(sentMessage => {
-                bot.bot.onReplyToMessage(
-                    sentMessage.chat.id,
-                    sentMessage.message_id,
-                    this.whichWant
-                );
-            });
+        await bot.bot.sendMessage(chatId, response)
+        // await bot.bot
+        //     .sendMessage(chatId, response, {
+        //         reply_markup: JSON.stringify({force_reply: true})
+        //     })
+        //     .then(sentMessage => {
+        //         bot.bot.onReplyToMessage(
+        //             sentMessage.chat.id,
+        //             sentMessage.message_id,
+        //             this.whichWant
+        //         );
+        //     });
     }
 };

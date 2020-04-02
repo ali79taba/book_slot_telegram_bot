@@ -6,10 +6,12 @@ const fields = require('../models/field');
 
 const callback_variable = require('../util/callback_handler_variable');
 const showTeacher = require('./show_teachers');
+const functionHandler = require('./user/function_handler');
 
 
-const setUserName = (msg) => {
+exports.setUserName = (msg) => {
     const chatId = msg.chat.id;
+    functionHandler.updateState(chatId, 'get_phone_number');
     User.findAll({where: {chatId: chatId}})
         .then(user => {
             if (user.length > 0) {
@@ -42,6 +44,7 @@ exports.setPhoneNumber = (msg) => {
 };
 
 exports.setField = (chatId, value) => {
+    functionHandler.updateState(chatId, 'set_gerayesh');
     User.findAll({where: {chatId: chatId}})
         .then(user => {
             if (user.length > 0) {
@@ -56,6 +59,7 @@ exports.setField = (chatId, value) => {
 };
 
 exports.setGrade =async (chatId, grade)=>{
+
     const user = await User.findOne({where:{chatId:chatId}});
     if(user){
         user.grade = grade;
@@ -95,8 +99,9 @@ function getGrade(chatId){
     //     });
 }
 
-async function setUni(msg){
+exports.setUni = async (msg)=>{
     const chatId = msg.chat.id;
+    functionHandler.updateState(chatId, 'getGrade');
     const uni = msg.text;
     const user = await User.findOne({where:{chatId:chatId}});
     if(user){
@@ -104,17 +109,18 @@ async function setUni(msg){
         user.save();
         getGrade(chatId);
     }
-}
+};
 
 function getUni(chatId){
-    bot.bot.sendMessage(chatId, "لطفا نام دانشگاه خود را وارد کنید", {reply_markup: JSON.stringify({force_reply: true})})
-        .then(sentMessage => {
-            bot.bot.onReplyToMessage(
-                sentMessage.chat.id,
-                sentMessage.message_id,
-                setUni
-            );
-        });
+    bot.bot.sendMessage(chatId, "لطفا نام دانشگاه خود را وارد کنید");
+    // bot.bot.sendMessage(chatId, "لطفا نام دانشگاه خود را وارد کنید", {reply_markup: JSON.stringify({force_reply: true})})
+    //     .then(sentMessage => {
+    //         bot.bot.onReplyToMessage(
+    //             sentMessage.chat.id,
+    //             sentMessage.message_id,
+    //             setUni
+    //         );
+    //     });
 }
 
 exports.setGerayesh = (chatId, value) => {
@@ -169,13 +175,15 @@ exports.createUser = (msg, match) => {
         .catch(err => {
             console.log(err);
         });
+    functionHandler.updateState(chatId, 'get_name');
     let response = "لطفا نام و نام خانوادگی خودتون رو وارد کنید";
-    bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
-        .then(sentMessage => {
-            bot.bot.onReplyToMessage(
-                sentMessage.chat.id,
-                sentMessage.message_id,
-                setUserName
-            );
-        });
+    bot.bot.sendMessage(chatId, response);
+    // bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
+    //     .then(sentMessage => {
+    //         bot.bot.onReplyToMessage(
+    //             sentMessage.chat.id,
+    //             sentMessage.message_id,
+    //             setUserName
+    //         );
+    //     });
 };
