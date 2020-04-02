@@ -53,7 +53,7 @@ exports.request_info = async (msg)=>{
     if(response.length >0){
         await bot.sendMessage(chatId, response).then();
     }else{
-        await bot.sendMessage(chatId, response).then();
+        await bot.sendMessage(chatId, "شما فعلا درخواستی ندارید!").then();
     }
     functionHandler.updateState(chatId, "1");
     mainView.show_list(chatId);
