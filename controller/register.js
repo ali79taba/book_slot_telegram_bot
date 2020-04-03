@@ -112,6 +112,7 @@ exports.setUni = async (msg)=>{
 };
 
 function getUni(chatId){
+    functionHandler.updateState(chatId, "get_uni");
     bot.bot.sendMessage(chatId, "لطفا نام دانشگاه خود را وارد کنید");
     // bot.bot.sendMessage(chatId, "لطفا نام دانشگاه خود را وارد کنید", {reply_markup: JSON.stringify({force_reply: true})})
     //     .then(sentMessage => {
