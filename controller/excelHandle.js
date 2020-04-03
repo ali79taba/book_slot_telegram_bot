@@ -16,28 +16,28 @@ const password_generator = require('generate-password');
 
 const teacher_column = require('../util/teacher_excel_col_number');
 
-function getCellValue(row, colNumber){
-    if(row.values.length < colNumber){
+function getCellValue(row, colNumber) {
+    if (row.values.length < colNumber) {
         return null;
     }
     console.log("colNumber : ", colNumber);
     let cellValue = row.getCell(colNumber).value;
-    if(!cellValue){
+    if (!cellValue) {
         return null;
     }
-    if(cellValue.hasOwnProperty('richText')){
+    if (cellValue.hasOwnProperty('richText')) {
         cellValue = cellValue.richText[1].text;
     }
     return cellValue;
 }
 
-async function removeRemoved(row, teacherId){
-    const timeSlots = await TimeSlot.findAll({where:{teacherId:teacherId}});
-    timeSlots.forEach((timeSlot)=>{
-        const value = getCellValue(row , timeSlot.col);
-        if(value !== timeSlot.description){
-            User.findOne({where:{id:timeSlot.userId}}).then(user=>{
-                if(user){
+async function removeRemoved(row, teacherId) {
+    const timeSlots = await TimeSlot.findAll({where: {teacherId: teacherId}});
+    timeSlots.forEach((timeSlot) => {
+        const value = getCellValue(row, timeSlot.col);
+        if (value !== timeSlot.description) {
+            User.findOne({where: {id: timeSlot.userId}}).then(user => {
+                if (user) {
                     bot.sendMessage(user.chatId, "یکی از بازه های انتخابی شما حذف شده و استاد دیگر در آن زمان نمی تواند مشاوره بدهد لطفا دوباره بازه زمانی خود را انتخاب کنید.").then();
                 }
             });
@@ -50,12 +50,12 @@ async function removeRemoved(row, teacherId){
 
 async function updateTimeSlot(firstRow, secondRow, teacherId, colNumber) {
     console.log(teacherId);
-    const timeSlots = await TimeSlot.findAll({where:{teacherId:teacherId}});
+    const timeSlots = await TimeSlot.findAll({where: {teacherId: teacherId}});
     await removeRemoved(firstRow, teacherId);
     firstRow.eachCell(async (cell, colNumber) => {
         if (colNumber >= teacher_column.START_SLOT_TIME_COLUMN) {
             let cellValue = cell.value;
-            if(cellValue.hasOwnProperty('richText')){
+            if (cellValue.hasOwnProperty('richText')) {
                 cellValue = cellValue.richText[1].text;
             }
             console.log("I am in TimeSlots");
@@ -135,7 +135,14 @@ async function updateFields(row, secondRow, colNumber) {
                 })
                 .then(teacher => {
                     updateTimeSlot(row, secondRow, teacher.id, colNumber);
-                })
+                });
+            console.log("Find users for this gerayesh : ", gerayesh);
+            User.findAll({where: {gerayesh: gerayesh}}).then(users => {
+                users.forEach(user => {
+                    console.log("users that have gerayesh : ", user.id);
+                    bot.sendMessage(user.chatId, "در گرایش شما استادی اضافه شده است برای مشاهده استاد ها دستور /show_teachers را وارد کنید.");
+                });
+            })
         }
     }
 
@@ -143,7 +150,10 @@ async function updateFields(row, secondRow, colNumber) {
 
 
 exports.updateRow = (firstRow, secondRow, colNumber) => {
-    updateFields(firstRow, secondRow, colNumber);
+    updateFields(firstRow, secondRow, colNumber).catch(err => {
+        console.log("in update row");
+        console.log(err);
+    });
 };
 
 exports.createUpdatedExcel = () => {
