@@ -28,6 +28,8 @@ const register = require("./controller/register");
 const userCallbackHandler = require('./controller/user/callbackHandler');
 const studentShowRequest = require('./controller/user/requests');
 const functionHandler = require('./controller/user/function_handler');
+const sendOmraniha = require('./controller/user/sendOmranMassage');
+const sendToEmpties = require('./controller/user/sent_to_empy_teacher');
 
 const Show_teachers = require("./controller/show_teachers");
 const teacherControllerRegister = require('./controller/teacher_register');
@@ -42,6 +44,9 @@ const admin_show_student = require('./controller/admin/show_student_excel');
 const admin_auth = require('./controller/admin/authentication');
 const admin_request_handler = require('./controller/admin/requests');
 const {AdminCallbackQueryHandler} = require('./controller/admin/callback_query_handle');
+const {getStatus} = require('./controller/admin/persons_status');
+const personHaveSlot = require('./controller/admin/persons_have_slot');
+const fixDataTeacher = require('./controller/teacher/fix_teacher_data');
 
 
 bot.on('message', async (msg)=>{
@@ -91,6 +96,12 @@ admin_bot.onText(/\/show_student_info/, (msg)=>{
 admin_bot.onText(/\/accepting_request/, (msg)=>{
     admin_auth.auth(msg, admin_request_handler.accepting_request_get_id);
 });
+admin_bot.onText(/\/persons_status/, (msg)=>{
+   admin_auth.auth(msg, getStatus);
+});
+admin_bot.onText(/\/persons_have_slot/, (msg)=>{
+    admin_auth.auth(msg,personHaveSlot.getStatus);
+})
 admin_bot.on('callback_query', (msg) => {
     AdminCallbackQueryHandler(msg);
 });
@@ -103,5 +114,8 @@ sequelize
     .catch(err => {
     });
 
-
+// fixDataTeacher.fix();
+// sendToEmpties.sendEmptyTeacher();
+// sendToEmpties.sendEmptyTimeSlot();
+// sendToEmpties.sendForCompleteInfo();
 

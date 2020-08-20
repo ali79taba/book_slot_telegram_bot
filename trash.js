@@ -1,3 +1,9 @@
+
+let string = "   2sfd o23 سیب سیب "
+
+newString = string.replace(/\s+/g,' ').trim();
+console.log(newString);
+
 // const User_Teacher = sequelize.define('User_Teacher', {
 //     id: {
 //         type: Sequelize.INTEGER,

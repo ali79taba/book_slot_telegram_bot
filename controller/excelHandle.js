@@ -26,26 +26,33 @@ function getCellValue(row, colNumber) {
         return null;
     }
     if (cellValue.hasOwnProperty('richText')) {
-        cellValue = cellValue.richText[1].text;
+        let now = "";
+        cellValue.richText.forEach(richText=>{
+            now += richText.text;
+        })
+        cellValue = now
     }
+    cellValue = cellValue.replace(/\s+/g,' ').trim();
+    console.log("COL NUMBER : " + colNumber + " value : " + cellValue);
     return cellValue;
 }
 
 async function removeRemoved(row, teacherId) {
     const timeSlots = await TimeSlot.findAll({where: {teacherId: teacherId}});
-    timeSlots.forEach((timeSlot) => {
+    console.log("time Slots for deleting and processing in excel : ", timeSlots);
+    for(let index in timeSlots){
+        const timeSlot = timeSlots[index];
         const value = getCellValue(row, timeSlot.col);
         if (value !== timeSlot.description) {
-            User.findOne({where: {id: timeSlot.userId}}).then(user => {
-                if (user) {
-                    bot.sendMessage(user.chatId, "یکی از بازه های انتخابی شما حذف شده و استاد دیگر در آن زمان نمی تواند مشاوره بدهد لطفا دوباره بازه زمانی خود را انتخاب کنید.").then();
-                }
-            });
-            timeSlot.destroy().then(
-                console.log("######## destorying slot : ", value)
-            );
+            // User.findOne({where: {id: timeSlot.userId}}).then(user => {
+            //     if (user) {
+            //         bot.sendMessage(user.chatId, "یکی از بازه های انتخابی شما حذف شده و استاد دیگر در آن زمان نمی تواند مشاوره بدهد لطفا دوباره بازه زمانی خود را انتخاب کنید.").then();
+            //     }
+            // });
+            await timeSlot.destroy()
+            console.log("######## destorying slot : ", value)
         }
-    });
+    }
 }
 
 async function updateTimeSlot(firstRow, secondRow, teacherId, colNumber) {
@@ -54,10 +61,7 @@ async function updateTimeSlot(firstRow, secondRow, teacherId, colNumber) {
     await removeRemoved(firstRow, teacherId);
     firstRow.eachCell(async (cell, colNumber) => {
         if (colNumber >= teacher_column.START_SLOT_TIME_COLUMN) {
-            let cellValue = cell.value;
-            if (cellValue.hasOwnProperty('richText')) {
-                cellValue = cellValue.richText[1].text;
-            }
+            let cellValue = getCellValue(firstRow, colNumber)
             console.log("I am in TimeSlots");
             console.log(cellValue);
             const slot = await TimeSlot.findOne({where: {teacherId: teacherId, col: colNumber}});
@@ -140,7 +144,8 @@ async function updateFields(row, secondRow, colNumber) {
             User.findAll({where: {gerayesh: gerayesh}}).then(users => {
                 users.forEach(user => {
                     console.log("users that have gerayesh : ", user.id);
-                    bot.sendMessage(user.chatId, "در گرایش شما استادی اضافه شده است برای مشاهده استاد ها دستور /show_teachers را وارد کنید.");
+                    bot.sendMessage(user.chatId, "در رشته و گرایش شما استاد جدیدی اضافه شده است. \n" +
+                        "برای مشاهده رزومه از دستور /show_teachers استفاده کنید.");
                 });
             })
         }

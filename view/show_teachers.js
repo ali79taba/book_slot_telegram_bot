@@ -67,7 +67,10 @@ async function show_one_teacher(chatId, teacher) {
 exports.show_teachers = async (chatId, teachers) => {
     let response = "";
     if (teachers.length === 0) {
-        response = "فعلا استادی در گرایش شما وجود ندارد";
+        response = "فعلا استادی در گرایش شما وجود ندارد.😕\n" +
+            "در تلاشیم به زودی اساتید مرتبط با گرایش شما را به ربات اضافه کنیم!\n" +
+            "\n" +
+            "از طریق کانال @technothesis در جریان اخرین اتفاقات تکنوتز باشید.";
         await bot.bot.sendMessage(chatId, response);
         functionHadler.updateState(chatId, '');
     } else {

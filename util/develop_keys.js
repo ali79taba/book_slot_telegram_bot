@@ -1,5 +1,5 @@
 exports.DATABASE_NAME = "booking";
-exports.DATABASE_USER = "root";
+exports.DATABASE_USER = "admin";
 exports.DATABASE_PASSWORD = "1234";
 exports.DATABASE_HOST = "localhost";
 exports.DATABASE_PORT = 3306;
