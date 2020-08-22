@@ -1,14 +1,82 @@
-const http = require('http');
+const bodyParser = require('body-parser');
+const express = require('express');
+const expressApp = express();
+const Teacher = require("./models/teacher");
+const pendingAccept = require('./models/pendingAccept');
+const AcceptedRequest = require('./models/acceptedRequest');
+const Rejected = require('./models/reject');
+const cors = require('cors');
+
+const router = express.Router();
+
+
+// const http = require('http');
+
 const hostname = '0.0.0.0';
 const port = 3000;
+expressApp.use(bodyParser.urlencoded({ extended: true }));
+expressApp.use(bodyParser.json());
+expressApp.use(bodyParser.raw());
+expressApp.use(cors());
+expressApp.use(router);
 
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello World! NodeJS \n');
-});
+router.get('/teachers/:id/requests',async (req, res)=>{
+    const pending = await pendingAccept.findAll({teacherId : req.params.id})
+    const accepted = await AcceptedRequest.findAll({teacherId: req.params.id});
+    const rejected = await Rejected.findAll({teacherId: req.params.id});
+    res.send({
+        pending,
+        accepted,
+        rejected,
+    })
+})
 
-server.listen(port, hostname, () => {
+router.get('/teachers/:id',async (req, res, next)=> {
+    Teacher.findOne({id : req.params.id}).then(teacher => {
+      res.send(teacher);
+    }).catch(error => {
+        res.send("Error");
+    })
+})
+
+router.post('/teachers/:id', async (req, res, next)=> {
+    Teacher.findOne({id : req.params.id}).then(teacher => {
+        console.log(req.body);
+        teacher.first_name = req.body.first_name;
+        teacher.last_name = req.body.last_name;
+        teacher.description = req.body.description;
+        teacher.contact = req.body.contact;
+        teacher.image_link = req.body.image_link;
+        teacher.gerayesh = req.body.gerayesh;
+        teacher.field = req.body.field;
+        teacher.save()
+        res.send("OK");
+    }).catch(error => {
+        res.send("Error");
+    })
+})
+
+router.get('/teachers',async (req, res)=>{
+    Teacher.findAll().then(teachers => {
+        res.send(JSON.parse(JSON.stringify(teachers)))
+    }).catch(err => {
+        res.send("Error");
+    });
+})
+
+// const server = http.createServer((req, res) => {
+//     res.statusCode = 200;
+//     res.setHeader('Content-Type', 'application/json');
+//     // res.end('Hello World! NodeJS \n');
+// });
+
+// server.get('/', (req, res)=>{
+//     res.send({
+//         hello : 2
+//     })
+// })
+
+expressApp.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
 
