@@ -42,7 +42,17 @@ const Teacher = sequelize.define("teacher", {
   contact:{
     type: Sequelize.STRING,
     allowNull: true
+  },
+  username: {
+    type: Sequelize.STRING,
+    allowNull: true,
+    unique : true,
+  },
+  token:{
+    type: Sequelize.STRING,
+    allowNull: true,
   }
+
 });
 
 

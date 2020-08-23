@@ -5,7 +5,10 @@ const Teacher = require("./models/teacher");
 const pendingAccept = require('./models/pendingAccept');
 const AcceptedRequest = require('./models/acceptedRequest');
 const Rejected = require('./models/reject');
+const User = require('./models/user');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser')
 
 const router = express.Router();
 
@@ -14,16 +17,53 @@ const router = express.Router();
 
 const hostname = '0.0.0.0';
 const port = 3000;
+expressApp.use(cookieParser());
 expressApp.use(bodyParser.urlencoded({ extended: true }));
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.raw());
-expressApp.use(cors());
+expressApp.use(cors({credentials: true, origin: 'http://localhost:8080'}));
 expressApp.use(router);
 
+const SECRET_KEY = 'SJE@@WD!SF#@LKSDjo'
+
+router.post('/login', async (req, res)=>{
+    console.log(req.cookies);
+    const username = req.body.username;
+    const password = req.body.password;
+    const teacher = await Teacher.findOne({username: username, code : password});
+    // console.log(teacher)
+    // console.log(teacher.username, username, teacher.code === password);
+    if((!teacher) || (teacher.username !== username) || (teacher.code !== password)){
+        res.status(401).send();
+        return res;
+    }
+    const token = jwt.sign({username}, SECRET_KEY)
+    teacher.token = token;
+    teacher.save();
+    res.status(200).send({
+        token,
+        teacher
+    })
+    return res;
+})
+
+async function auth(req,res, next){
+    console.log("COOOKIE : ", req.headers, req.cookies);
+    if(!req.cookies  || !('token' in req.cookies))
+        return res.status(401).send();
+    const teacher = await Teacher.findOne({where:{token:req.cookies.token}});
+    if(teacher){
+        console.log("OKKK");
+        return next();
+    }else{
+        return res.status(401).send();
+    }
+}
+
 router.get('/teachers/:id/requests',async (req, res)=>{
-    const pending = await pendingAccept.findAll({teacherId : req.params.id})
-    const accepted = await AcceptedRequest.findAll({teacherId: req.params.id});
-    const rejected = await Rejected.findAll({teacherId: req.params.id});
+    const pending = await pendingAccept.findAll({where:{teacherId : req.params.id}})
+    const accepted = await AcceptedRequest.findAll({where:{teacherId: req.params.id}});
+    const rejected = await Rejected.findAll({where:{teacherId: req.params.id}});
     res.send({
         pending,
         accepted,
@@ -56,7 +96,17 @@ router.post('/teachers/:id', async (req, res, next)=> {
     })
 })
 
-router.get('/teachers',async (req, res)=>{
+router.get('/user', [auth], async(req, res, next)=>{
+    const teacher = await Teacher.findOne({where:{token:req.cookies.token}, raw: true});
+    res.status(200).send({
+        user : {
+            ...teacher,
+            type : "teacher",
+        }
+    })
+})
+
+router.get('/teachers', async (req, res)=>{
     Teacher.findAll().then(teachers => {
         res.send(JSON.parse(JSON.stringify(teachers)))
     }).catch(err => {

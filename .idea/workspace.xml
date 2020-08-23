@@ -20,11 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Book_telegram_bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Book_telegram_bot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/20200822153215-addTeacherToken.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/20200822155705-add_teacher_username.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/teacher.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/teacher.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
@@ -147,6 +148,18 @@
       <workItem from="1598041899127" duration="1166000" />
       <workItem from="1598075508951" duration="197000" />
       <workItem from="1598106108300" duration="291000" />
+      <workItem from="1598109187283" duration="83000" />
+      <workItem from="1598109608444" duration="3227000" />
+      <workItem from="1598113840952" duration="253000" />
+      <workItem from="1598114168654" duration="442000" />
+      <workItem from="1598114767912" duration="1408000" />
+      <workItem from="1598117748902" duration="316000" />
+      <workItem from="1598118612242" duration="154000" />
+      <workItem from="1598119789202" duration="57000" />
+      <workItem from="1598144311711" duration="109000" />
+      <workItem from="1598146330923" duration="185000" />
+      <workItem from="1598147673391" duration="34000" />
+      <workItem from="1598147739838" duration="334000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>
@@ -206,9 +219,10 @@
     </state>
     <state x="744" y="298" width="687" height="491" key="FileChooserDialogImpl/0.1080.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1591529173788" />
     <state x="744" y="318" width="424" height="491" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1597952093795" />
-    <state x="623" y="259" width="672" height="678" key="search.everywhere.popup" timestamp="1597952028441">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="623" y="261" width="672" height="677" key="search.everywhere.popup" timestamp="1598110647495">
+      <screen x="0" y="29" width="1920" height="1051" />
     </state>
     <state x="623" y="259" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1597952028441" />
+    <state x="623" y="261" width="672" height="677" key="search.everywhere.popup/0.29.1920.1051@0.29.1920.1051" timestamp="1598110647495" />
   </component>
 </project>
