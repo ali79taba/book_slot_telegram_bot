@@ -20,14 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/migrations/20200822153215-addTeacherToken.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migrations/20200822155705-add_teacher_username.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/teacher.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/teacher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,6 +154,10 @@
       <workItem from="1598146330923" duration="185000" />
       <workItem from="1598147673391" duration="34000" />
       <workItem from="1598147739838" duration="334000" />
+      <workItem from="1598149889616" duration="16000" />
+      <workItem from="1598202867446" duration="12000" />
+      <workItem from="1598382820606" duration="486000" />
+      <workItem from="1598426205709" duration="28000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>

@@ -30,7 +30,7 @@ router.post('/login', async (req, res)=>{
     console.log(req.cookies);
     const username = req.body.username;
     const password = req.body.password;
-    const teacher = await Teacher.findOne({username: username, code : password});
+    const teacher = await Teacher.findOne({where:{username: username, code : password}});
     // console.log(teacher)
     // console.log(teacher.username, username, teacher.code === password);
     if((!teacher) || (teacher.username !== username) || (teacher.code !== password)){
@@ -42,7 +42,10 @@ router.post('/login', async (req, res)=>{
     teacher.save();
     res.status(200).send({
         token,
-        teacher
+        teacher : {
+            ...teacher.get(),
+            userType : "teacher",
+        }
     })
     return res;
 })
@@ -101,7 +104,7 @@ router.get('/user', [auth], async(req, res, next)=>{
     res.status(200).send({
         user : {
             ...teacher,
-            type : "teacher",
+            userType : "teacher",
         }
     })
 })
