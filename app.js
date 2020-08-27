@@ -1,3 +1,5 @@
+const {getUsersInObjectViaId} = require("./models/user/utils");
+
 const bodyParser = require('body-parser');
 const express = require('express');
 const expressApp = express();
@@ -8,20 +10,22 @@ const Rejected = require('./models/reject');
 const User = require('./models/user');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const {acceptRequestById} = require('./models/pending/utils')
+const {sendAcceptRequestMessageForUser} = require('./controller/teacher/callback_query')
+
+expressApp.use(cors({credentials: true, origin: 'http://localhost:8080'}));
+
 
 const router = express.Router();
 
-
 // const http = require('http');
-
 const hostname = '0.0.0.0';
 const port = 3000;
 expressApp.use(cookieParser());
 expressApp.use(bodyParser.urlencoded({ extended: true }));
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.raw());
-expressApp.use(cors({credentials: true, origin: 'http://localhost:8080'}));
 expressApp.use(router);
 
 const SECRET_KEY = 'SJE@@WD!SF#@LKSDjo'
@@ -63,10 +67,17 @@ async function auth(req,res, next){
     }
 }
 
-router.get('/teachers/:id/requests',async (req, res)=>{
-    const pending = await pendingAccept.findAll({where:{teacherId : req.params.id}})
-    const accepted = await AcceptedRequest.findAll({where:{teacherId: req.params.id}});
-    const rejected = await Rejected.findAll({where:{teacherId: req.params.id}});
+router.get('/teachers/:id/requests', [auth],async (req, res)=>{
+    let pending = await pendingAccept.findAll({where:{teacherId : req.params.id}})
+    let accepted = await AcceptedRequest.findAll({where:{teacherId: req.params.id}});
+    let rejected = await Rejected.findAll({where:{teacherId: req.params.id}});
+    pending = await getUsersInObjectViaId(pending);
+    accepted = await getUsersInObjectViaId(accepted);
+    rejected = await getUsersInObjectViaId(rejected);
+
+    console.log("PENDING : ", pending);
+    console.log("ACCEPTED :", accepted);
+
     res.send({
         pending,
         accepted,
@@ -82,21 +93,20 @@ router.get('/teachers/:id',async (req, res, next)=> {
     })
 })
 
-router.post('/teachers/:id', async (req, res, next)=> {
-    Teacher.findOne({id : req.params.id}).then(teacher => {
-        console.log(req.body);
-        teacher.first_name = req.body.first_name;
-        teacher.last_name = req.body.last_name;
-        teacher.description = req.body.description;
-        teacher.contact = req.body.contact;
-        teacher.image_link = req.body.image_link;
-        teacher.gerayesh = req.body.gerayesh;
-        teacher.field = req.body.field;
-        teacher.save()
-        res.send("OK");
-    }).catch(error => {
-        res.send("Error");
-    })
+router.post('/teachers/:id', [auth], async (req, res, next)=> {
+    const teacher = await Teacher.findOne({id : req.params.id})
+    console.log(req.body);
+    teacher.first_name = req.body.first_name;
+    teacher.last_name = req.body.last_name;
+    teacher.description = req.body.description;
+    teacher.contact = req.body.contact;
+    teacher.code = req.body.code;
+    // teacher.image_link = req.body.image_link;
+    // teacher.gerayesh = req.body.gerayesh;
+    // teacher.field = req.body.field;
+    await teacher.save()
+    res.send({message: ""});
+
 })
 
 router.get('/user', [auth], async(req, res, next)=>{
@@ -115,6 +125,13 @@ router.get('/teachers', async (req, res)=>{
     }).catch(err => {
         res.send("Error");
     });
+})
+
+router.post('/accept/:id', [auth], async(req, res)=>{
+    const pendRequest = await pendingAccept.findOne({where:{id: req.params.id}});
+    await acceptRequestById(req.params.id);
+    sendAcceptRequestMessageForUser(pendRequest.teacherId, pendRequest.userId).then();
+    res.status(200).send({message: ""});
 })
 
 // const server = http.createServer((req, res) => {

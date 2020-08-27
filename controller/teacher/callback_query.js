@@ -24,6 +24,14 @@ async function handleRejectionWithText(msg, teacherId, userId) {
     mainView.showMain(chatId);
 }
 
+exports.sendAcceptRequestMessageForUser = async function (teacherId, userId){
+    const teacher = await Teacher.findOne({where: {id: teacherId}});
+    const response = "درخواست مشاوره شما با استاد " + teacher.first_name + " " + teacher.last_name + " با کد (استاد) " + teacher.id + " تایید شد." + "\n" +
+        "(اکنون شما می توانید با دستور /book_time زمان مشاوره خود را انتخاب کنید.)";
+    const user = await User.findOne({where: {id: userId}});
+    await bot.sendMessage(user.chatId, response).then();
+}
+
 async function acceptingRequest(chatId, arguments) {
     console.log(arguments);
     const teacherId = arguments[0];
@@ -33,12 +41,7 @@ async function acceptingRequest(chatId, arguments) {
         Pending.destroy({where: {teacherId: teacherId, userId: userId}});
         Accepted.create({teacherId: teacherId, userId: userId});
         teacher_bot.sendMessage(chatId, "درخواست دانشجوی مورد نظر قبول شد").then();
-        const teacher = await Teacher.findOne({where: {id: teacherId}});
-        const response = "درخواست مشاوره شما با استاد " + teacher.first_name + " " + teacher.last_name + " با کد (استاد) " + teacher.id + " تایید شد." + "\n" +
-            "(اکنون شما می توانید با دستور /book_time زمان مشاوره خود را انتخاب کنید.)";
-        const user = await User.findOne({where: {id: userId}});
-        await bot.sendMessage(user.chatId, response).then();
-        mainView.showMain(chatId);
+        this.sendAcceptRequestMessageForUser(teacherId, userId).then();
     } else if (type === "no") {
         Pending.destroy({where: {teacherId: teacherId, userId: userId}});
         Rejected.create({where: {teacherId: teacherId, userId: userId}});
