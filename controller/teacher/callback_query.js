@@ -32,6 +32,14 @@ exports.sendAcceptRequestMessageForUser = async function (teacherId, userId){
     await bot.sendMessage(user.chatId, response).then();
 }
 
+exports.sendRejectRequestMessageToUser = async function (teacherId, userId){
+    const teacher = await Teacher.findOne({where: {id: teacherId}});
+    const response = "درخواست مشاوره شما با استاد " + teacher.first_name + " " + teacher.last_name + " با کد (استاد) " + teacher.id + " رد شد." + "\n" +
+        "(اکنون شما می توانید با دستور /start رزومه خود را اصلاح کنید و مجددا برای استاد مورد نظر خود، درخواست مشاوره ثبت کنید)";
+    const user = await User.findOne({where: {id: userId}});
+    await bot.sendMessage(user.chatId, response).then();
+}
+
 async function acceptingRequest(chatId, arguments) {
     console.log(arguments);
     const teacherId = arguments[0];
@@ -42,15 +50,12 @@ async function acceptingRequest(chatId, arguments) {
         Accepted.create({teacherId: teacherId, userId: userId});
         teacher_bot.sendMessage(chatId, "درخواست دانشجوی مورد نظر قبول شد").then();
         this.sendAcceptRequestMessageForUser(teacherId, userId).then();
+        mainView.showMain(chatId);
     } else if (type === "no") {
         Pending.destroy({where: {teacherId: teacherId, userId: userId}});
         Rejected.create({where: {teacherId: teacherId, userId: userId}});
-        teacher_bot.sendMessage(chatId, "درخواست دانشجوی مورد نظر رد شد");
-        const response = "درخواست مشاوره شما با استاد " + teacher.first_name + " " + teacher.last_name + " با کد (استاد) " + teacher.id + " رد شد." + "\n" +
-            "(اکنون شما می توانید با دستور /start رزومه خود را اصلاح کنید و مجددا برای استاد مورد نظر خود، درخواست مشاوره ثبت کنید)";
-        const user = await User.findOne({where: {id: userId}});
-        await bot.sendMessage(user.chatId, response).then();
-        mainView.showMain(chatId);
+        teacher_bot.sendMessage(chatId, "درخواست دانشجوی مورد نظر رد شد").then(()=>mainView.showMain(chatId));
+        this.sendRejectRequestMessageToUser(teacherId, userId).then();
     } else {
         teacher_bot.sendMessage(chatId, "لطفا دلیل خود را برای رد این درخواست بنویسید.", {reply_markup: JSON.stringify({force_reply: true})})
             .then(sentMessage => {

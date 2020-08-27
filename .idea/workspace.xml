@@ -20,11 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/models/pending/utils.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/user/utils.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/teacher/callback_query.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/teacher/callback_query.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/pending/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/pending/utils.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,7 +167,8 @@
       <workItem from="1598476723065" duration="435000" />
       <workItem from="1598477897088" duration="924000" />
       <workItem from="1598478880882" duration="142000" />
-      <workItem from="1598515566475" duration="292000" />
+      <workItem from="1598515566475" duration="347000" />
+      <workItem from="1598516532138" duration="1375000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>

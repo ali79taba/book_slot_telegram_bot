@@ -11,8 +11,8 @@ const User = require('./models/user');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-const {acceptRequestById} = require('./models/pending/utils')
-const {sendAcceptRequestMessageForUser} = require('./controller/teacher/callback_query')
+const {acceptRequestById, rejectRequestById} = require('./models/pending/utils')
+const {sendAcceptRequestMessageForUser,sendRejectRequestMessageToUser} = require('./controller/teacher/callback_query')
 
 expressApp.use(cors({credentials: true, origin: 'http://localhost:8080'}));
 
@@ -125,14 +125,21 @@ router.get('/teachers', async (req, res)=>{
     }).catch(err => {
         res.send("Error");
     });
-})
+});
 
 router.post('/accept/:id', [auth], async(req, res)=>{
     const pendRequest = await pendingAccept.findOne({where:{id: req.params.id}});
     await acceptRequestById(req.params.id);
     sendAcceptRequestMessageForUser(pendRequest.teacherId, pendRequest.userId).then();
     res.status(200).send({message: ""});
-})
+});
+
+router.post('/reject/:id', [auth], async(req, res)=>{
+    const pendRequest = await pendingAccept.findOne({where:{id: req.params.id}});
+    await rejectRequestById(req.params.id);
+    sendRejectRequestMessageToUser(pendRequest.teacherId, pendRequest.userId).then();
+    res.status(200).send({message: ""});
+});
 
 // const server = http.createServer((req, res) => {
 //     res.statusCode = 200;
