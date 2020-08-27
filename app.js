@@ -31,19 +31,19 @@ expressApp.use(router);
 const SECRET_KEY = 'SJE@@WD!SF#@LKSDjo'
 
 router.post('/login', async (req, res)=>{
-    console.log(req.cookies);
+    // console.log(req.cookies);
     const username = req.body.username;
     const password = req.body.password;
     const teacher = await Teacher.findOne({where:{username: username, code : password}});
-    // console.log(teacher)
-    // console.log(teacher.username, username, teacher.code === password);
+    // // console.log(teacher)
+    // // console.log(teacher.username, username, teacher.code === password);
     if((!teacher) || (teacher.username !== username) || (teacher.code !== password)){
         res.status(401).send();
         return res;
     }
     const token = jwt.sign({username}, SECRET_KEY)
     teacher.token = token;
-    teacher.save();
+    await teacher.save();
     res.status(200).send({
         token,
         teacher : {
@@ -55,10 +55,11 @@ router.post('/login', async (req, res)=>{
 })
 
 async function auth(req,res, next){
-    console.log("COOOKIE : ", req.headers, req.cookies);
+    console.log("----------COOOKIE : ", req.headers, req.cookies);
     if(!req.cookies  || !('token' in req.cookies))
         return res.status(401).send();
     const teacher = await Teacher.findOne({where:{token:req.cookies.token}});
+    // console.log("------------", teacher.get());
     if(teacher){
         console.log("OKKK");
         return next();
@@ -75,8 +76,8 @@ router.get('/teachers/:id/requests', [auth],async (req, res)=>{
     accepted = await getUsersInObjectViaId(accepted);
     rejected = await getUsersInObjectViaId(rejected);
 
-    console.log("PENDING : ", pending);
-    console.log("ACCEPTED :", accepted);
+    // console.log("PENDING : ", pending);
+    // console.log("ACCEPTED :", accepted);
 
     res.send({
         pending,
@@ -95,7 +96,7 @@ router.get('/teachers/:id',async (req, res, next)=> {
 
 router.post('/teachers/:id', [auth], async (req, res, next)=> {
     const teacher = await Teacher.findOne({id : req.params.id})
-    console.log(req.body);
+    // console.log(req.body);
     teacher.first_name = req.body.first_name;
     teacher.last_name = req.body.last_name;
     teacher.description = req.body.description;
@@ -141,6 +142,20 @@ router.post('/reject/:id', [auth], async(req, res)=>{
     res.status(200).send({message: ""});
 });
 
+router.get('/student/:id', [auth], async(req, res)=>{
+    const user = await User.findByPk(req.params.id);
+    if(user) {
+        res.send({
+            ...user.get()
+        })
+    }else{
+        res.send({
+            message: "not found"
+        })
+    }
+
+});
+
 // const server = http.createServer((req, res) => {
 //     res.statusCode = 200;
 //     res.setHeader('Content-Type', 'application/json');
@@ -154,7 +169,7 @@ router.post('/reject/:id', [auth], async(req, res)=>{
 // })
 
 expressApp.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
+    // console.log(`Server running at http://${hostname}:${port}/`);
 });
 
 
