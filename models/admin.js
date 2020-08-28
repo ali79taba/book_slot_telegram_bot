@@ -13,6 +13,18 @@ const Admin = sequelize.define(
         chatId: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        token: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
+        username: {
+            type: Sequelize.STRING,
+            allowNull: true,
+        },
+        code: {
+            type: Sequelize.STRING,
+            allowNull: true,
         }
     }
 );

@@ -20,8 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/migrations/20200827130416-add-username-and-token-to-admin.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/20200827130855-add-code_to_admins.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/admin.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,6 +173,15 @@
       <workItem from="1598521624379" duration="353000" />
       <workItem from="1598524141477" duration="93000" />
       <workItem from="1598525249405" duration="715000" />
+      <workItem from="1598532482520" duration="2988000" />
+      <workItem from="1598538998190" duration="814000" />
+      <workItem from="1598541013690" duration="467000" />
+      <workItem from="1598544254375" duration="53000" />
+      <workItem from="1598544361907" duration="1328000" />
+      <workItem from="1598552853037" duration="106000" />
+      <workItem from="1598554478917" duration="449000" />
+      <workItem from="1598555929191" duration="22000" />
+      <workItem from="1598616440315" duration="26000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>
