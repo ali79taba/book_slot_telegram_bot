@@ -1,5 +1,6 @@
 const bot = require("../util/bot");
 const admin_bot = require('../util/admin_bot');
+const teacher_bot = require('../util/teacher_bot');
 const fixNumber = require("../util/persian_numbers");
 
 const User = require("../models/user");
@@ -71,13 +72,19 @@ exports.controlHandler = async (msg, teacherId) => {
                 .catch(err => {
                     console.log(err);
                 });
+            const teacher = await Teacher.findOne({where:{id:teacherId}});
+            console.log("********* :", teacher, teacher && !teacher.dontSendRequestNotificationBot&& teacher.chatId)
             const response = "درخواست شما برای استاد ثبت شد. رزومه شما بررسی و به درخواست شما پاسخ داده خواهد شد. در صورت تمایل برای اصلاح رزومه از دستور /start استفاده کنید.";
-            Admin.findAll().then(admins=>{
-                admins.forEach(admin=>{
-                   admin_bot.sendMessage(admin.chatId,"در خواستی فرستاده شده است لطفا لیست درخواست ها را بررسی فرمایید. /pending_list");
+            if(teacher && !teacher.dontSendRequestNotificationBot && teacher.chatId){
+                teacher_bot.sendMessage(teacher.chatId, "درخواستی برای شما ثبت شده است لطفا سایت را بررسی کنید").then();
+            }else{
+                Admin.findAll().then(admins=>{
+                    admins.forEach(admin=>{
+                        admin_bot.sendMessage(admin.chatId,"در خواستی فرستاده شده است لطفا لیست درخواست ها را بررسی فرمایید. /pending_list");
+                    });
                 });
-            });
-            bot.bot.sendMessage(chatId, response).then();
+                bot.bot.sendMessage(chatId, response).then();
+            }
             main_veiw.show_list(chatId);
         }
     } else if (fixNumber(msg.text) === "2") {

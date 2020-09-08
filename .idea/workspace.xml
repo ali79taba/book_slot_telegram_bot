@@ -20,11 +20,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/migrations/20200908004833-change-allow-null-to-description-in-timeslot.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migrations/20200908005114-rename-isString-to-isDate-timeSlot.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/20200908200322-add send notification value to teacher model.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/timeSlot.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/timeSlot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/show_teachers.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/show_teachers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/teacher.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/teacher.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,6 +195,8 @@
       <workItem from="1599525782552" duration="749000" />
       <workItem from="1599526833918" duration="91000" />
       <workItem from="1599593720576" duration="139000" />
+      <workItem from="1599595327078" duration="487000" />
+      <workItem from="1599596710002" duration="843000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>
@@ -254,6 +256,10 @@
     </state>
     <state x="744" y="298" width="687" height="491" key="FileChooserDialogImpl/0.1080.1920.1080/0.0.1920.1080@0.0.1920.1080" timestamp="1591529173788" />
     <state x="744" y="318" width="424" height="491" key="FileChooserDialogImpl/0.27.1920.1053@0.27.1920.1053" timestamp="1597952093795" />
+    <state x="651" y="295" width="618" height="544" key="find.popup" timestamp="1599597510223">
+      <screen x="0" y="29" width="1920" height="1051" />
+    </state>
+    <state x="651" y="295" width="618" height="544" key="find.popup/0.29.1920.1051@0.29.1920.1051" timestamp="1599597510223" />
     <state x="623" y="261" width="672" height="677" key="search.everywhere.popup" timestamp="1598110647495">
       <screen x="0" y="29" width="1920" height="1051" />
     </state>

@@ -51,6 +51,10 @@ const Teacher = sequelize.define("teacher", {
   token:{
     type: Sequelize.STRING,
     allowNull: true,
+  },
+  dontSendRequestNotificationBot:{
+    type: Sequelize.BOOLEAN,
+    allowNull: true,
   }
 
 });
