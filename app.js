@@ -12,8 +12,9 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const {acceptRequestById, rejectRequestById} = require('./models/pending/utils');
-const {sendAcceptRequestMessageForUser,sendRejectRequestMessageToUser} = require('./controller/teacher/callback_query');
+const {sendAcceptRequestMessageForUser, sendRejectRequestMessageToUser} = require('./controller/teacher/callback_query');
 const Admin = require('./models/admin');
+const TimeSlot = require('./models/timeSlot');
 
 expressApp.use(cors({credentials: true, origin: 'http://localhost:8080'}));
 
@@ -24,43 +25,43 @@ const router = express.Router();
 const hostname = '0.0.0.0';
 const port = 3000;
 expressApp.use(cookieParser());
-expressApp.use(bodyParser.urlencoded({ extended: true }));
+expressApp.use(bodyParser.urlencoded({extended: true}));
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.raw());
 expressApp.use(router);
 
 const SECRET_KEY = 'SJE@@WD!SF#@LKSDjo'
 
-router.post('/login', async (req, res)=>{
+router.post('/login', async (req, res) => {
     // console.log(req.cookies);
     const username = req.body.username;
     const password = req.body.password;
-    const teacher = await Teacher.findOne({where:{username: username, code : password}});
+    const teacher = await Teacher.findOne({where: {username: username, code: password}});
     const admin = await Admin.findOne({where: {username: username, code: password}});
     // // console.log(teacher)
     // // console.log(teacher.username, username, teacher.code === password);
     const token = jwt.sign({username}, SECRET_KEY)
-    if((teacher) && (teacher.username === username) && (teacher.code === password)){
+    if ((teacher) && (teacher.username === username) && (teacher.code === password)) {
         teacher.token = token;
         await teacher.save();
         res.status(200).send({
             token,
-            teacher : {
+            teacher: {
                 ...teacher.get(),
-                userType : "teacher",
+                userType: "teacher",
             }
         })
         return res;
     }
     console.log("AAAUTH --- : ", admin);
-    if(admin && admin.username === username && admin.code === password){
+    if (admin && admin.username === username && admin.code === password) {
         admin.token = token;
         await admin.save();
         res.status(200).send({
             token,
-            admin : {
+            admin: {
                 ...admin.get(),
-                userType : "admin",
+                userType: "admin",
             }
         })
         return res;
@@ -69,25 +70,35 @@ router.post('/login', async (req, res)=>{
     return res;
 })
 
-async function auth(req,res, next){
+async function auth(req, res, next) {
     console.log("----------COOOKIE : ", req.headers, req.cookies);
-    if(!req.cookies  || !('token' in req.cookies))
+    if (!req.cookies || !('token' in req.cookies))
         return res.status(401).send();
-    const teacher = await Teacher.findOne({where:{token:req.cookies.token}});
-    const admin = await Admin.findOne({where:{token: req.cookies.token}});
+    const teacher = await Teacher.findOne({where: {token: req.cookies.token}});
+    const admin = await Admin.findOne({where: {token: req.cookies.token}});
     // console.log("------------", teacher.get());
-    if(teacher || admin){
+    if (teacher || admin) {
         console.log("OKKK");
         return next();
-    }else{
+    } else {
         return res.status(401).send();
     }
 }
 
-router.get('/teachers/:id/requests',async (req, res)=>{
-    let pending = await pendingAccept.findAll({where:{teacherId : req.params.id}})
-    let accepted = await AcceptedRequest.findAll({where:{teacherId: req.params.id}});
-    let rejected = await Rejected.findAll({where:{teacherId: req.params.id}});
+async function adminAuth(req, res, next) {
+    if (!req.cookies || !('token' in req.cookies))
+        return res.status(401).send();
+    const admin = await Admin.findOne({where: {token: req.cookies.token}});
+    console.log("#####################ADMIN ", admin.get());
+    if (admin)
+        return next();
+    return res.status(401).send();
+}
+
+router.get('/teachers/:id/requests', async (req, res) => {
+    let pending = await pendingAccept.findAll({where: {teacherId: req.params.id}})
+    let accepted = await AcceptedRequest.findAll({where: {teacherId: req.params.id}});
+    let rejected = await Rejected.findAll({where: {teacherId: req.params.id}});
     pending = await getUsersInObjectViaId(pending);
     accepted = await getUsersInObjectViaId(accepted);
     rejected = await getUsersInObjectViaId(rejected);
@@ -102,9 +113,9 @@ router.get('/teachers/:id/requests',async (req, res)=>{
     })
 })
 
-router.get('/teachers/:id',async (req, res, next)=> {
+router.get('/teachers/:id', [adminAuth], async (req, res, next) => {
     console.log("----------------QUERY : ", req.params.id);
-    Teacher.findOne({where: {id : req.params.id}}).then(teacher => {
+    Teacher.findOne({where: {id: req.params.id}}).then(teacher => {
         console.log(teacher.get());
         res.send(teacher.get());
     }).catch(error => {
@@ -112,8 +123,8 @@ router.get('/teachers/:id',async (req, res, next)=> {
     })
 })
 
-router.put('/teachers/:id', [auth], async (req, res, next)=> {
-    const teacher = await Teacher.findOne({where:{id : req.params.id}})
+router.put('/teachers/:id', [adminAuth], async (req, res, next) => {
+    const teacher = await Teacher.findOne({where: {id: req.params.id}})
     // console.log(req.body);
     teacher.first_name = req.body.first_name;
     teacher.last_name = req.body.last_name;
@@ -128,7 +139,7 @@ router.put('/teachers/:id', [auth], async (req, res, next)=> {
 
 });
 
-router.post('/teachers', [auth], async(req, res)=>{
+router.post('/teachers', [adminAuth], async (req, res) => {
     const teacherFromBody = req.body;
     await Teacher.create({
         first_name: teacherFromBody.first_name,
@@ -141,21 +152,21 @@ router.post('/teachers', [auth], async(req, res)=>{
         image_link: teacherFromBody.image_link,
         username: teacherFromBody.username,
     })
-    res.send({message:""});
+    res.send({message: ""});
 
 });
 
-router.get('/user', [auth], async(req, res, next)=>{
-    const teacher = await Teacher.findOne({where:{token:req.cookies.token}, raw: true});
-    const admin = await Admin.findOne({where:{token: req.cookies.token}, raw: true});
-    if(teacher) {
+router.get('/user', [auth], async (req, res, next) => {
+    const teacher = await Teacher.findOne({where: {token: req.cookies.token}, raw: true});
+    const admin = await Admin.findOne({where: {token: req.cookies.token}, raw: true});
+    if (teacher) {
         res.status(200).send({
             user: {
                 ...teacher,
                 userType: "teacher",
             }
         })
-    }else if(admin){
+    } else if (admin) {
         res.status(200).send({
             user: {
                 ...admin,
@@ -165,7 +176,7 @@ router.get('/user', [auth], async(req, res, next)=>{
     }
 })
 
-router.get('/teachers', async (req, res)=>{
+router.get('/teachers', [adminAuth], async (req, res) => {
     Teacher.findAll().then(teachers => {
         res.send(JSON.parse(JSON.stringify(teachers)))
     }).catch(err => {
@@ -173,33 +184,52 @@ router.get('/teachers', async (req, res)=>{
     });
 });
 
-router.post('/accept/:id', [auth], async(req, res)=>{
-    const pendRequest = await pendingAccept.findOne({where:{id: req.params.id}});
+router.post('/accept/:id', [auth], async (req, res) => {
+    const pendRequest = await pendingAccept.findOne({where: {id: req.params.id}});
     await acceptRequestById(req.params.id);
     sendAcceptRequestMessageForUser(pendRequest.teacherId, pendRequest.userId).then();
     res.status(200).send({message: ""});
 });
 
-router.post('/reject/:id', [auth], async(req, res)=>{
-    const pendRequest = await pendingAccept.findOne({where:{id: req.params.id}});
+router.post('/reject/:id', [auth], async (req, res) => {
+    const pendRequest = await pendingAccept.findOne({where: {id: req.params.id}});
     await rejectRequestById(req.params.id);
     sendRejectRequestMessageToUser(pendRequest.teacherId, pendRequest.userId).then();
     res.status(200).send({message: ""});
 });
 
-router.get('/student/:id', [auth], async(req, res)=>{
+router.get('/student/:id', [auth], async (req, res) => {
     const user = await User.findByPk(req.params.id);
-    if(user) {
+    if (user) {
         res.send({
             ...user.get()
         })
-    }else{
+    } else {
         res.send({
             message: "not found"
         })
     }
 
 });
+
+router.post('/timeslot/:teacherId', [adminAuth], async (req, res) => {
+    console.log("WE ARE IN TIME SLOT _________________________")
+    console.log(req.params.teacherId);
+    const timeSlotFromBody = req.body;
+    await TimeSlot.create({
+        ...timeSlotFromBody,
+        teacherId : req.params.teacherId
+    })
+    res.send({message: ""});
+
+})
+
+router.get('/timeslot/:teacherId', [auth], async (req, res) => {
+    const timeSlots = await TimeSlot.findAll({where: {teacherId: req.params.teacherId}, raw:true});
+    res.send({
+        timeSlots : timeSlots
+    });
+})
 
 // const server = http.createServer((req, res) => {
 //     res.statusCode = 200;
@@ -216,8 +246,6 @@ router.get('/student/:id', [auth], async(req, res)=>{
 expressApp.listen(port, hostname, () => {
     // console.log(`Server running at http://${hostname}:${port}/`);
 });
-
-
 
 
 const {bot} = require("./util/bot");
@@ -254,7 +282,7 @@ const personHaveSlot = require('./controller/admin/persons_have_slot');
 const fixDataTeacher = require('./controller/teacher/fix_teacher_data');
 
 
-bot.on('message', async (msg)=>{
+bot.on('message', async (msg) => {
     await functionHandler.checkRoot(msg);
     await functionHandler.doRequests(msg);
 });
@@ -264,7 +292,7 @@ bot.on('message', async (msg)=>{
 // bot.onText(/\/show_slots/, bookingTime.showSlots);
 // bot.onText(/\/delete_slot/, bookingTime.SelectSlotForDelete);
 // bot.onText(/\/show_requests/, studentShowRequest.request_info);
-bot.on('callback_query', (msg)=>{
+bot.on('callback_query', (msg) => {
     userCallbackHandler(msg);
 });
 
@@ -281,31 +309,30 @@ teacher_bot.on('callback_query', (msg) => {
 });
 
 
-
 admin_bot.onText(/\/start/, admin_auth.start);
 admin_bot.onText(/\/show_teachers_excel/, (msg) => {
     admin_auth.auth(msg, admin_edit_teacher.sendLastModify);
 });
-admin_bot.onText(/\/show_student_excel/, (msg) =>{
+admin_bot.onText(/\/show_student_excel/, (msg) => {
     admin_auth.auth(msg, admin_show_student.sendLastModify);
 });
 admin_bot.onText(/\/edit_teachers_excel/, (msg) => {
     admin_auth.auth(msg, admin_edit_teacher.editTeacherExcel);
 });
-admin_bot.onText(/\/pending_list/, (msg)=>{
+admin_bot.onText(/\/pending_list/, (msg) => {
     admin_auth.auth(msg, admin_request_handler.show_pending);
 });
-admin_bot.onText(/\/show_student_info/, (msg)=>{
-   admin_auth.auth(msg, admin_request_handler.get_student_info_code);
+admin_bot.onText(/\/show_student_info/, (msg) => {
+    admin_auth.auth(msg, admin_request_handler.get_student_info_code);
 });
-admin_bot.onText(/\/accepting_request/, (msg)=>{
+admin_bot.onText(/\/accepting_request/, (msg) => {
     admin_auth.auth(msg, admin_request_handler.accepting_request_get_id);
 });
-admin_bot.onText(/\/persons_status/, (msg)=>{
-   admin_auth.auth(msg, getStatus);
+admin_bot.onText(/\/persons_status/, (msg) => {
+    admin_auth.auth(msg, getStatus);
 });
-admin_bot.onText(/\/persons_have_slot/, (msg)=>{
-    admin_auth.auth(msg,personHaveSlot.getStatus);
+admin_bot.onText(/\/persons_have_slot/, (msg) => {
+    admin_auth.auth(msg, personHaveSlot.getStatus);
 })
 admin_bot.on('callback_query', (msg) => {
     AdminCallbackQueryHandler(msg);

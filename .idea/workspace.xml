@@ -20,11 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/migrations/20200827130416-add-username-and-token-to-admin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migrations/20200827130855-add-code_to_admins.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/20200904200005-add-timeslot-date.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/timeSlot.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/timeSlot.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,6 +181,15 @@
       <workItem from="1598554478917" duration="449000" />
       <workItem from="1598555929191" duration="22000" />
       <workItem from="1598616440315" duration="26000" />
+      <workItem from="1598619474607" duration="43000" />
+      <workItem from="1599222812519" duration="684000" />
+      <workItem from="1599223573052" duration="462000" />
+      <workItem from="1599224925614" duration="311000" />
+      <workItem from="1599249362470" duration="989000" />
+      <workItem from="1599291766446" duration="12000" />
+      <workItem from="1599421065008" duration="1597000" />
+      <workItem from="1599423157824" duration="986000" />
+      <workItem from="1599467088014" duration="26000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>

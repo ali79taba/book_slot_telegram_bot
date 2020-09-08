@@ -16,7 +16,7 @@ const TimeSlot = sequelize.define(
         },
         description: {
             type: Sequelize.STRING,
-            allowNull: false,
+            allowNull: true,
         },
         userId: {
             type: Sequelize.INTEGER,
@@ -24,8 +24,22 @@ const TimeSlot = sequelize.define(
         },
         col:{
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: true,
+            defaultValue: 10,
+        },
+        isString: {
+            type: Sequelize.BOOLEAN,
+            allowNull: true
+        },
+        startDate: {
+            type: Sequelize.INTEGER,
+            allowNull: true
+        },
+        endDate: {
+            type: Sequelize.INTEGER,
+            allowNull: true
         }
+
     }
 );
 
