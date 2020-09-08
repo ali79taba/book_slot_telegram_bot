@@ -131,6 +131,7 @@ router.put('/teachers/:id', [adminAuth], async (req, res, next) => {
     teacher.description = req.body.description;
     teacher.contact = req.body.contact;
     teacher.code = req.body.code;
+    teacher.username = req.body.username;
     // teacher.image_link = req.body.image_link;
     // teacher.gerayesh = req.body.gerayesh;
     // teacher.field = req.body.field;

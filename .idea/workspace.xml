@@ -20,7 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/migrations/20200904200005-add-timeslot-date.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/20200908004833-change-allow-null-to-description-in-timeslot.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/migrations/20200908005114-rename-isString-to-isDate-timeSlot.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/timeSlot.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/timeSlot.js" afterDir="false" />
@@ -190,6 +191,10 @@
       <workItem from="1599421065008" duration="1597000" />
       <workItem from="1599423157824" duration="986000" />
       <workItem from="1599467088014" duration="26000" />
+      <workItem from="1599525418606" duration="14000" />
+      <workItem from="1599525782552" duration="749000" />
+      <workItem from="1599526833918" duration="91000" />
+      <workItem from="1599593720576" duration="139000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>

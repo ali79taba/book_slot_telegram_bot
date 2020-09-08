@@ -27,7 +27,7 @@ const TimeSlot = sequelize.define(
             allowNull: true,
             defaultValue: 10,
         },
-        isString: {
+        isDate: {
             type: Sequelize.BOOLEAN,
             allowNull: true
         },
