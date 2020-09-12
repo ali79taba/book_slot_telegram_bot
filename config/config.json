@@ -13,11 +13,12 @@
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
-  "production": {
+  "prod": {
     "username": "root",
-    "password": null,
+    "password": "M3vNFclGyOO9E4x0baA8orvU",
     "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "host": "s10.liara.ir",
+    "dialect": "mysql",
+    "port": "33205"
   }
 }

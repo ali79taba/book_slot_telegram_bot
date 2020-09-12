@@ -9,10 +9,11 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-    	await migration.addColumn(
+    	await queryInterface.addColumn(
 	  'admins',
-	  'username',
-	  DataTypes.STRING
+	  'username',{
+                type: Sequelize.DataTypes.STRING
+            }
 	)
   ])
   },

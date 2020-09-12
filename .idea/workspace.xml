@@ -20,11 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/migrations/20200908200322-add send notification value to teacher model.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/show_teachers.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/show_teachers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/teacher.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/teacher.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/20200821210525-ali.js" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/20200821210525-ali.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +194,9 @@
       <workItem from="1599526833918" duration="91000" />
       <workItem from="1599593720576" duration="139000" />
       <workItem from="1599595327078" duration="487000" />
-      <workItem from="1599596710002" duration="843000" />
+      <workItem from="1599596710002" duration="1070000" />
+      <workItem from="1599894647780" duration="1272000" />
+      <workItem from="1599920216043" duration="1401000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>
