@@ -16,7 +16,7 @@ const {sendAcceptRequestMessageForUser, sendRejectRequestMessageToUser} = requir
 const Admin = require('./models/admin');
 const TimeSlot = require('./models/timeSlot');
 
-expressApp.use(cors({credentials: true, origin: 'http://localhost:8080'}));
+expressApp.use(cors({credentials: true, origin : process.env.FRONT_HOST || "http://localhost:8080"} ));
 
 
 const router = express.Router();
@@ -44,6 +44,7 @@ router.post('/login', async (req, res) => {
     if ((teacher) && (teacher.username === username) && (teacher.code === password)) {
         teacher.token = token;
         await teacher.save();
+        res.cookie('token', token, { maxAge: 900000, httpOnly: false , sameSite: "none", secure: process.env.NODE_ENV === 'prod'});
         res.status(200).send({
             token,
             teacher: {
@@ -53,10 +54,11 @@ router.post('/login', async (req, res) => {
         })
         return res;
     }
-    console.log("AAAUTH --- : ", admin);
+    // console.log("AAAUTH --- : ", admin);
     if (admin && admin.username === username && admin.code === password) {
         admin.token = token;
         await admin.save();
+        res.cookie('token', token, { maxAge: 900000, httpOnly: false , sameSite: "none", secure: process.env.NODE_ENV === 'prod'});
         res.status(200).send({
             token,
             admin: {
@@ -71,14 +73,14 @@ router.post('/login', async (req, res) => {
 })
 
 async function auth(req, res, next) {
-    console.log("----------COOOKIE : ", req.headers, req.cookies);
+    // console.log("----------COOOKIE : ", req.headers, req.cookies);
     if (!req.cookies || !('token' in req.cookies))
         return res.status(401).send();
     const teacher = await Teacher.findOne({where: {token: req.cookies.token}});
     const admin = await Admin.findOne({where: {token: req.cookies.token}});
     // console.log("------------", teacher.get());
     if (teacher || admin) {
-        console.log("OKKK");
+        // console.log("OKKK");
         return next();
     } else {
         return res.status(401).send();
@@ -89,7 +91,7 @@ async function adminAuth(req, res, next) {
     if (!req.cookies || !('token' in req.cookies))
         return res.status(401).send();
     const admin = await Admin.findOne({where: {token: req.cookies.token}});
-    console.log("#####################ADMIN ", admin.get());
+    // console.log("#####################ADMIN ", admin.get());
     if (admin)
         return next();
     return res.status(401).send();
@@ -114,9 +116,9 @@ router.get('/teachers/:id/requests', async (req, res) => {
 })
 
 router.get('/teachers/:id', [adminAuth], async (req, res, next) => {
-    console.log("----------------QUERY : ", req.params.id);
+    // console.log("----------------QUERY : ", req.params.id);
     Teacher.findOne({where: {id: req.params.id}}).then(teacher => {
-        console.log(teacher.get());
+        // console.log(teacher.get());
         res.send(teacher.get());
     }).catch(error => {
         res.send("Error");
@@ -214,9 +216,9 @@ router.get('/student/:id', [auth], async (req, res) => {
 
 });
 
-router.post('/timeslot/:teacherId', [adminAuth], async (req, res) => {
-    console.log("WE ARE IN TIME SLOT _________________________")
-    console.log(req.params.teacherId);
+router.post('/timeslot/:teacherId', [auth], async (req, res) => {
+    // console.log("WE ARE IN TIME SLOT _________________________")
+    // console.log(req.params.teacherId);
     const timeSlotFromBody = req.body;
     await TimeSlot.create({
         ...timeSlotFromBody,

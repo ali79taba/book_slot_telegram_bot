@@ -21,8 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/20200821210525-ali.js" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/20200821210525-ali.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +195,19 @@
       <workItem from="1599595327078" duration="487000" />
       <workItem from="1599596710002" duration="1070000" />
       <workItem from="1599894647780" duration="1272000" />
-      <workItem from="1599920216043" duration="1401000" />
+      <workItem from="1599920216043" duration="2248000" />
+      <workItem from="1599941175695" duration="79000" />
+      <workItem from="1599981269876" duration="39000" />
+      <workItem from="1600007358164" duration="1423000" />
+      <workItem from="1600013244114" duration="487000" />
+      <workItem from="1600022226736" duration="794000" />
+      <workItem from="1600023590093" duration="2203000" />
+      <workItem from="1600027841553" duration="457000" />
+      <workItem from="1600070278601" duration="852000" />
+      <workItem from="1600097159051" duration="1511000" />
+      <workItem from="1600111315717" duration="1141000" />
+      <workItem from="1600115780170" duration="58000" />
+      <workItem from="1600171699639" duration="1221000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>
@@ -231,6 +242,16 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
