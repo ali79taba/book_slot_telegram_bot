@@ -12,8 +12,10 @@ const show_teachers_view = require("../view/show_teachers");
 const view = require("../view/register");
 const main_view = require('../view/student_main_page');
 const functionHandler = require('./user/function_handler');
+const showTimeSlot = require('../view/timeslot/showTimeSlot');
 
 const teacher_bot = require('../util/teacher_bot');
+
 
 exports.bookSlot =async (msg)=>{
     const chatId = msg.chat.id;
@@ -50,19 +52,19 @@ exports.SelectSlot = async (msg) => {
     const teacherId = fixNumber(msg.text);
     const accepted = await Accepted.findOne({where: {teacherId: teacherId, userId:user.id}});
     if (accepted) {
-        TimeSlot.findAll({where: {teacherId: teacherId, userId: null}}).then(timeSlots => {
+        TimeSlot.findAll({where: {teacherId: teacherId, userId: null}}).then(async timeSlots => {
             let response = "لطفا کد زمان مورد نظر خود را انتخاب کنید" + "\n";
             for (let index in timeSlots) {
                 let timeSlot = timeSlots[index];
-                response += `کد بازه :‌ ` + timeSlot.id + "\n" + timeSlot.description + "\n";
+                response += await showTimeSlot(timeSlot, false);
             }
             if(timeSlots.length === 0){
-                bot.sendMessage(chatId, "استاد انتخابی شما فعلا وقت خالی ندارند");
+                bot.sendMessage(chatId, "استاد انتخابی شما فعلا وقت خالی ندارند").then();
                 functionHandler.updateState(chatId, "1");
                 main_view.show_list(chatId);
             }else{
                 functionHandler.updateState(chatId, "get_teacher_id_for_get_slot");
-                bot.sendMessage(chatId, response);
+                bot.sendMessage(chatId, response).then();
                 // bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
                 //     .then(sentMessage => {
                 //         bot.onReplyToMessage(
@@ -124,7 +126,7 @@ exports.showSlots = async (msg, match)=>{
             for(let index in timeSlots){
                 const timeSlot = timeSlots[index];
                 const teacher = await Teacher.findOne({where:{id:timeSlot.teacherId}});
-                response += "کد بازه :‌ " + timeSlot.id + "\n" + "زمان بازه‌ :‌ " + timeSlot.description;
+                response += await showTimeSlot(timeSlot, false);
                 response += "\n" + "نام استاد :‌ " + teacher.first_name + " " + teacher.last_name + "\n" +
                     "راه ارتباطی با استاد : " + teacher.contact + "\n" +
                     "--------\n";

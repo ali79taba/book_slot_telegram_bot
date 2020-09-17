@@ -20,12 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/models/requests/findUndandled.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/createDailyInterval.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/view/admin/sendUnhandledRequests.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/view/timeslot/showTimeSlot.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/admin/requests.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/admin/requests.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/admin/persons_have_slot.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/admin/persons_have_slot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/bookingTime.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/bookingTime.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -215,7 +215,7 @@
       <workItem from="1600171699639" duration="1221000" />
       <workItem from="1600284242735" duration="954000" />
       <workItem from="1600290394841" duration="98000" />
-      <workItem from="1600341518818" duration="4361000" />
+      <workItem from="1600341518818" duration="7037000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>
@@ -288,10 +288,10 @@
       <screen x="0" y="29" width="1920" height="1051" />
     </state>
     <state x="449" y="189" width="1022" height="737" key="SettingsEditor/0.29.1920.1051@0.29.1920.1051" timestamp="1600284402821" />
-    <state x="651" y="295" width="618" height="544" key="find.popup" timestamp="1599597510223">
+    <state x="258" y="29" width="1444" height="982" key="find.popup" timestamp="1600351428882">
       <screen x="0" y="29" width="1920" height="1051" />
     </state>
-    <state x="651" y="295" width="618" height="544" key="find.popup/0.29.1920.1051@0.29.1920.1051" timestamp="1599597510223" />
+    <state x="258" y="29" width="1444" height="982" key="find.popup/0.29.1920.1051@0.29.1920.1051" timestamp="1600351428882" />
     <state x="623" y="261" width="672" height="677" key="search.everywhere.popup" timestamp="1598110647495">
       <screen x="0" y="29" width="1920" height="1051" />
     </state>

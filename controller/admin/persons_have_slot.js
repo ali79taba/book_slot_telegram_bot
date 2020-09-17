@@ -7,8 +7,10 @@ const TimeSlot = require('../../models/timeSlot');
 const admin_bot = require('../../util/admin_bot');
 
 const mainView = require('../../view/admin/main_view_admin');
+const showTimeSlot = require('../../view/timeslot/showTimeSlot');
 
 const fs = require('fs');
+
 
 exports.getStatus = async (msg) => {
     const chatId = msg.chat.id;
@@ -60,11 +62,7 @@ exports.getStatus = async (msg) => {
             response += "بازه های زمانی انتخابی دانشجو" + "\n\n";
             for(const index in timeSlots){
                 const timeSlot = timeSlots[index];
-                const teacher = await Teacher.findOne({where:{id:timeSlot.teacherId}});
-                response += "زمان :‌ " + timeSlot.description + "\n" +
-                    "کد زمان : " + timeSlot.id + "\n" +
-                    "نام استاد : " + teacher.first_name + " " + teacher.last_name + "\n" +
-                    "کد استاد :‌ " + timeSlot.teacherId + "\n\n";
+                response += await showTimeSlot(timeSlot);
             }
             response += "---------------\n";
         }
