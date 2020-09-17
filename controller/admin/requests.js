@@ -8,26 +8,36 @@ const User = require('../../models/user');
 const mainView = require('../../view/admin/main_view_admin');
 
 
+exports.createPendingMassage = async (pending) => {
+    let response = "";
+    const teacherId = pending.teacherId;
+    const userId = pending.userId;
+    const teacher = await Teacher.findOne({where: {id: teacherId}});
+    const user = await User.findOne({where: {id: userId}});
+    response += "کد درخواست : " + pending.id + "\n" +
+        "کد دانشجو : " + user.id + "\n" +
+        "نام دانشجو : " + user.name + "\n" +
+        "رشته دانشجو :‌ " + user.field + "\n" +
+        "نام استاد درخواستی : " + teacher.first_name + " " + teacher.last_name + "\n---------\n";
+    return response
+}
+
+exports.createPendingsMassage = async (pendings) => {
+    let response = "";
+    for (const index in pendings) {
+        const pending = pendings[index];
+        response += await this.createPendingMassage(pending);
+    }
+    return response;
+}
+
 exports.show_pending = (msg) => {
     const chatId = msg.chat.id;
     Pending.findAll().then(async pendings => {
         if(pendings.length === 0){
-            admin_bot.sendMessage(chatId, "در خواستی وجود ندارد");
+            admin_bot.sendMessage(chatId, "در خواستی وجود ندارد").then();
         }else{
-            let response = "";
-            for (const index in pendings) {
-                const pending = pendings[index];
-                const teacherId = pending.teacherId;
-                const userId = pending.userId;
-                const teacher = await Teacher.findOne({where: {id: teacherId}});
-                const user = await User.findOne({where: {id: userId}});
-                response += "کد درخواست : " + pending.id + "\n" +
-                    "کد دانشجو : " + user.id + "\n" +
-                    "نام دانشجو : " + user.name + "\n" +
-                    "رشته دانشجو :‌ " + user.field + "\n" +
-                    "نام استاد درخواستی : " + teacher.first_name + " " + teacher.last_name + "\n---------\n";
-
-            }
+            let response = await this.createPendingsMassage(pendings);
             await admin_bot.sendMessage(chatId, response);
         }
         mainView.view(chatId);

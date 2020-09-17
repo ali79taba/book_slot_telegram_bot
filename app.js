@@ -16,7 +16,7 @@ const {sendAcceptRequestMessageForUser, sendRejectRequestMessageToUser} = requir
 const Admin = require('./models/admin');
 const TimeSlot = require('./models/timeSlot');
 
-expressApp.use(cors({credentials: true, origin : process.env.FRONT_HOST || "http://localhost:8080"} ));
+expressApp.use(cors({credentials: true, origin: process.env.FRONT_HOST || "http://localhost:8080"}));
 
 
 const router = express.Router();
@@ -44,7 +44,12 @@ router.post('/login', async (req, res) => {
     if ((teacher) && (teacher.username === username) && (teacher.code === password)) {
         teacher.token = token;
         await teacher.save();
-        res.cookie('token', token, { maxAge: 900000, httpOnly: false , sameSite: "none", secure: process.env.NODE_ENV === 'prod'});
+        res.cookie('token', token, {
+            maxAge: 900000,
+            httpOnly: false,
+            sameSite: "none",
+            secure: process.env.NODE_ENV === 'prod'
+        });
         res.status(200).send({
             token,
             teacher: {
@@ -58,7 +63,12 @@ router.post('/login', async (req, res) => {
     if (admin && admin.username === username && admin.code === password) {
         admin.token = token;
         await admin.save();
-        res.cookie('token', token, { maxAge: 900000, httpOnly: false , sameSite: "none", secure: process.env.NODE_ENV === 'prod'});
+        res.cookie('token', token, {
+            maxAge: 900000,
+            httpOnly: false,
+            sameSite: "none",
+            secure: process.env.NODE_ENV === 'prod'
+        });
         res.status(200).send({
             token,
             admin: {
@@ -108,7 +118,7 @@ router.get('/teachers/:id/requests', async (req, res) => {
     // console.log("PENDING : ", pending);
     // console.log("ACCEPTED :", accepted);
 
-    res.send({
+    res.status(200).send({
         pending,
         accepted,
         rejected,
@@ -119,9 +129,9 @@ router.get('/teachers/:id', [adminAuth], async (req, res, next) => {
     // console.log("----------------QUERY : ", req.params.id);
     Teacher.findOne({where: {id: req.params.id}}).then(teacher => {
         // console.log(teacher.get());
-        res.send(teacher.get());
+        res.status(200).send(teacher.get());
     }).catch(error => {
-        res.send("Error");
+        res.status(404).send("Error");
     })
 })
 
@@ -139,7 +149,7 @@ router.put('/teachers/:id', [adminAuth], async (req, res, next) => {
     // teacher.gerayesh = req.body.gerayesh;
     // teacher.field = req.body.field;
     await teacher.save()
-    res.send({message: ""});
+    res.status(200).send({message: ""});
 
 });
 
@@ -156,7 +166,7 @@ router.post('/teachers', [adminAuth], async (req, res) => {
         image_link: teacherFromBody.image_link,
         username: teacherFromBody.username,
     })
-    res.send({message: ""});
+    res.status(200).send({message: ""});
 
 });
 
@@ -178,13 +188,14 @@ router.get('/user', [auth], async (req, res, next) => {
             }
         })
     }
+    res.status(404).send();
 })
 
 router.get('/teachers', [adminAuth], async (req, res) => {
     Teacher.findAll().then(teachers => {
-        res.send(JSON.parse(JSON.stringify(teachers)))
+        res.status(200).send(JSON.parse(JSON.stringify(teachers)))
     }).catch(err => {
-        res.send("Error");
+        res.status(404).send("Error");
     });
 });
 
@@ -205,11 +216,11 @@ router.post('/reject/:id', [auth], async (req, res) => {
 router.get('/student/:id', [auth], async (req, res) => {
     const user = await User.findByPk(req.params.id);
     if (user) {
-        res.send({
+        res.status(200).send({
             ...user.get()
         })
     } else {
-        res.send({
+        res.status(404).send({
             message: "not found"
         })
     }
@@ -222,34 +233,25 @@ router.post('/timeslot/:teacherId', [auth], async (req, res) => {
     const timeSlotFromBody = req.body;
     await TimeSlot.create({
         ...timeSlotFromBody,
-        teacherId : req.params.teacherId
+        teacherId: req.params.teacherId
     })
-    res.send({message: ""});
+    res.status(200).send({message: ""});
 
 })
 
 router.get('/timeslot/:teacherId', [auth], async (req, res) => {
-    const timeSlots = await TimeSlot.findAll({where: {teacherId: req.params.teacherId}, raw:true});
-    res.send({
-        timeSlots : timeSlots
+    const timeSlots = await TimeSlot.findAll({where: {teacherId: req.params.teacherId}, raw: true});
+    res.status(200).send({
+        timeSlots: timeSlots
     });
 })
 
-// const server = http.createServer((req, res) => {
-//     res.statusCode = 200;
-//     res.setHeader('Content-Type', 'application/json');
-//     // res.end('Hello World! NodeJS \n');
-// });
-
-// server.get('/', (req, res)=>{
-//     res.send({
-//         hello : 2
-//     })
-// })
 
 expressApp.listen(port, hostname, () => {
-    // console.log(`Server running at http://${hostname}:${port}/`);
+    console.log("Server is listening");
 });
+
+
 
 
 const {bot} = require("./util/bot");
@@ -354,4 +356,6 @@ sequelize
 // sendToEmpties.sendEmptyTeacher();
 // sendToEmpties.sendEmptyTimeSlot();
 // sendToEmpties.sendForCompleteInfo();
+
+
 
