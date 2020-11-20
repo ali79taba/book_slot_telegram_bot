@@ -145,9 +145,10 @@ router.put('/teachers/:id', [adminAuth], async (req, res, next) => {
     teacher.code = req.body.code;
     teacher.username = req.body.username;
     teacher.dontSendRequestNotificationBot = req.body.dontSendRequestNotificationBot;
+    teacher.email = req.body.email;
     // teacher.image_link = req.body.image_link;
-    // teacher.gerayesh = req.body.gerayesh;
-    // teacher.field = req.body.field;
+    teacher.gerayesh = req.body.gerayesh;
+    teacher.field = req.body.field;
     await teacher.save()
     res.status(200).send({message: ""});
 
@@ -156,6 +157,7 @@ router.put('/teachers/:id', [adminAuth], async (req, res, next) => {
 router.post('/teachers', [adminAuth], async (req, res) => {
     const teacherFromBody = req.body;
     await Teacher.create({
+        email: teacherFromBody.email,
         first_name: teacherFromBody.first_name,
         last_name: teacherFromBody.last_name,
         code: teacherFromBody.code,
@@ -168,6 +170,24 @@ router.post('/teachers', [adminAuth], async (req, res) => {
     })
     res.status(200).send({message: ""});
 
+});
+
+router.get('/banner', [auth], async (req, res, next) => {
+    const teacherListSize = await Teacher.findAndCountAll({limit: 0});
+    let imageLinks = [], loopCnt = 0;
+    while(imageLinks.length < 5 && loopCnt < 40){
+        const teacherId = Math.ceil(Math.random() * teacherListSize.count);
+        console.log(teacherId);
+        const teacherFind = await Teacher.findOne({where:{id : teacherId}});
+        if(teacherFind && teacherFind.image_link){
+            imageLinks.push(teacherFind.image_link);
+        }
+        loopCnt++;
+    }
+    if(imageLinks.length === 5)
+        res.status(200).send({imageLinks});
+    else
+        res.status(404).send();
 });
 
 router.get('/user', [auth], async (req, res, next) => {
