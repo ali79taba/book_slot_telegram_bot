@@ -16,7 +16,7 @@
   "prod": {
     "username": "root",
     "password": "M3vNFclGyOO9E4x0baA8orvU",
-    "database": "database_production",
+    "database": "cool_booth",
     "host": "s10.liara.ir",
     "dialect": "mysql",
     "port": "33205"
