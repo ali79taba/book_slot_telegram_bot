@@ -19,18 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/add-migration.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migrate.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migrations/20201025081427-add.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migrations/20201120125152-add_email_teacher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/user/function_handler.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user/function_handler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/teacher.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/teacher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/view/register.js" afterDir="false" />
-    </list>
+    <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
