@@ -64,7 +64,7 @@ exports.setGrade =async (chatId, grade)=>{
     if(user){
         user.grade = grade;
         user.save();
-        view.setIntrested(chatId);
+        view.setReason(chatId);
     }
 };
 
@@ -88,7 +88,7 @@ function getGrade(chatId){
             inline_keyboard: inline_keyboard
         })
     };
-    bot.bot.sendMessage(chatId, 'مطقع تحصیلی خود را انتخاب کنید', options);
+    bot.bot.sendMessage(chatId, 'مقطع تحصیلی خود را انتخاب کنید', options);
     // bot.bot.sendMessage(chatId,"لطفا مطقع تحصیلی خود را وارد کنید", {reply_markup: JSON.stringify({force_reply: true})})
     //     .then(sentMessage => {
     //         bot.bot.onReplyToMessage(
@@ -98,6 +98,7 @@ function getGrade(chatId){
     //         );
     //     });
 }
+
 
 exports.setUni = async (msg)=>{
     const chatId = msg.chat.id;
@@ -137,6 +138,22 @@ exports.setGerayesh = (chatId, value) => {
             console.log(err);
         });
 };
+
+exports.setReasonQuestion = (chatId, data) => {
+    console.log(data);
+    User.findOne({where: {chatId: chatId}})
+        .then(user =>{
+            if(user){
+                user.reasonQuestion = data;
+                user.save();
+                view.setIntrested(chatId);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            bot.bot.sendMessage(chatId, "فرايند ثبت نام شما به مشکل خورد دوباره امتحان کنید");
+        })
+}
 
 exports.setIntresting = (msg) => {
     const chatId = msg.chat.id;

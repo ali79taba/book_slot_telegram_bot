@@ -6,6 +6,7 @@ const bot = require("../util/bot");
 const fields = require('../models/field');
 
 
+
 exports.setPhoneNumber = (chatId) => {
     let response = "لطفا شماره همراه خودتون رو وارد کنید (ارتباط شما با استاد از طریق این شماره برقرار خواهد شد)";
     bot.bot.sendMessage(chatId, response);
@@ -119,6 +120,39 @@ exports.setGerayesh = (chatId, field) => {
             });
     }
 };
+
+exports.setReason = (chatId) => {
+    // functionHandler.updateState(chatId, "setReason")
+    const response = "برای شناخت بیشتر از شما، برای استاد و شرکتی که شما قراره با اونها در مورد پایان نامه تون صحبت کنید، مهمه که بدونن انگیزه شما از انجام پایان نامه و همچنین این مشاوره چیه؟\n" +
+        "لطفا مواردی که بیشتر باهاشون همخوانی دارن رو انتخاب کن و وقتی گزینه های مدنظرت رو انتخاب کردی، گزینه \"ارسال\" رو بزن."
+    const inline_keyboard = [];
+    const choices = ["آشنایی بیشتر با حیطه کاری استاد",
+        "همکاری برای توسعه نتایج پایان نامه",
+        "استخدام در شرکت ها",
+        "انجام مشترک پروژه با شرکت",
+        "استفاده از حمایت مالی شرکت",
+        "مزایای نخبگی و کسری خدمت",
+        "انتشار مقاله از پایان نامه"
+    ]
+    for (const key in choices) {
+        inline_keyboard.push([{
+            text: choices[key],
+            callback_data: choices[key],
+        }])
+    }
+    const options = {
+        reply_markup: JSON.stringify({
+            inline_keyboard: inline_keyboard
+        })
+    };
+    bot.bot.sendMessage(chatId, response, options).then(()=>{
+        bot.bot.once('callback_query', (msg) => {
+            const value = msg.data;
+            const chatId = msg.message.chat.id;
+            register.setReasonQuestion(chatId, value)
+        })
+    });
+}
 
 exports.setIntrested = (chatId) => {
     functionHandler.updateState(chatId, 'setIntresting');

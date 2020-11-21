@@ -80,7 +80,6 @@ exports.doRequests = async (msg) => {
             register.setIntresting(msg);
             break;
         case 'show_teachers':
-            console.log("OK");
             Show_teachers.showTeachers(msg);
             break;
         case 'get_teacher_code':
