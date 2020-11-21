@@ -52,6 +52,10 @@ const User = sequelize.define("user", {
     type:Sequelize.INTEGER,
     allowNull: true
   },
+  reasonQuestion:{
+    type: Sequelize.TEXT,
+    allowNull: true
+  }
 });
 
 // User.associate = function(models) {

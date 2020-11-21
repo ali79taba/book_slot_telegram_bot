@@ -55,6 +55,10 @@ const Teacher = sequelize.define("teacher", {
   dontSendRequestNotificationBot:{
     type: Sequelize.BOOLEAN,
     allowNull: true,
+  },
+  email:{
+    type: Sequelize.STRING,
+    allowNull: true,
   }
 
 });
