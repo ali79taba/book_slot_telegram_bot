@@ -21,9 +21,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/user/function_handler.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user/function_handler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/view/register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+    </list>
+    <list id="486349cb-b8de-4087-80a1-eca353691afe" name="local" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +52,18 @@
     <exe-path />
     <other-services-enabled>true</other-services-enabled>
     <auto-save>true</auto-save>
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/.idea/workspace.xml">
+      <ranges>
+        <range start1="21" end1="22" start2="21" end2="23" changelist="1ae90207-4a08-4af8-936c-d3b68e18ac0a" />
+        <range start1="23" end1="26" start2="24" end2="24" changelist="1ae90207-4a08-4af8-936c-d3b68e18ac0a" />
+        <range start1="262" end1="263" start2="260" end2="261" changelist="486349cb-b8de-4087-80a1-eca353691afe" />
+        <range start1="299" end1="300" start2="297" end2="305" changelist="486349cb-b8de-4087-80a1-eca353691afe" />
+        <range start1="332" end1="333" start2="337" end2="339" changelist="486349cb-b8de-4087-80a1-eca353691afe" />
+        <range start1="412" end1="412" start2="418" end2="422" changelist="486349cb-b8de-4087-80a1-eca353691afe" />
+      </ranges>
+    </file>
   </component>
   <component name="ProjectId" id="1ZYms6tJGewW4Mn77LlbuU4BBCW" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -128,6 +141,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="" />
+      <changelist id="486349cb-b8de-4087-80a1-eca353691afe" name="local" comment="" />
       <created>1585024605746</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -260,7 +274,8 @@
       <workItem from="1605879760529" duration="1320000" />
       <workItem from="1605953927976" duration="23000" />
       <workItem from="1605984337377" duration="608000" />
-      <workItem from="1605990890116" duration="649000" />
+      <workItem from="1605990890116" duration="953000" />
+      <workItem from="1606072831794" duration="348000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>
@@ -297,7 +312,14 @@
       <option name="project" value="LOCAL" />
       <updated>1605880698270</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add user reason question">
+      <created>1605991738362</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1605991738362</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -330,7 +352,8 @@
     <MESSAGE value="version 3" />
     <MESSAGE value="version 4" />
     <MESSAGE value="add email and banner" />
-    <option name="LAST_COMMIT_MESSAGE" value="add email and banner" />
+    <MESSAGE value="add user reason question" />
+    <option name="LAST_COMMIT_MESSAGE" value="add user reason question" />
   </component>
   <component name="WindowStateProjectService">
     <state x="418" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603613241839">
@@ -410,6 +433,14 @@
     </state>
     <state x="449" y="187" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1603613822571" />
     <state x="449" y="189" width="1022" height="737" key="SettingsEditor/0.29.1920.1051@0.29.1920.1051" timestamp="1600284402821" />
+    <state x="793" y="425" width="324" height="264" key="VCS.EditChangelistDialog" timestamp="1606072992138">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="793" y="425" width="324" height="264" key="VCS.EditChangelistDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1606072992138" />
+    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1605991796499">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1605991796499" />
     <state x="741" y="468" width="428" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604042554123">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>

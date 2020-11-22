@@ -179,7 +179,7 @@ router.get('/banner', [auth], async (req, res, next) => {
         const teacherId = Math.ceil(Math.random() * teacherListSize.count);
         console.log(teacherId);
         const teacherFind = await Teacher.findOne({where:{id : teacherId}});
-        if(teacherFind && teacherFind.image_link){
+        if(teacherFind && teacherFind.image_link && !(teacherFind.image_link in imageLinks)){
             imageLinks.push(teacherFind.image_link);
         }
         loopCnt++;
