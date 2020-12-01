@@ -1,3 +1,5 @@
+const updateTeacher = require("./controller/teacher/updateTeacher");
+
 const {getUsersInObjectViaId} = require("./models/user/utils");
 
 const bodyParser = require('body-parser');
@@ -136,22 +138,8 @@ router.get('/teachers/:id', [adminAuth], async (req, res, next) => {
 })
 
 router.put('/teachers/:id', [adminAuth], async (req, res, next) => {
-    const teacher = await Teacher.findOne({where: {id: req.params.id}})
-    // console.log(req.body);
-    teacher.first_name = req.body.first_name;
-    teacher.last_name = req.body.last_name;
-    teacher.description = req.body.description;
-    teacher.contact = req.body.contact;
-    teacher.code = req.body.code;
-    teacher.username = req.body.username;
-    teacher.dontSendRequestNotificationBot = req.body.dontSendRequestNotificationBot;
-    teacher.email = req.body.email;
-    // teacher.image_link = req.body.image_link;
-    teacher.gerayesh = req.body.gerayesh;
-    teacher.field = req.body.field;
-    await teacher.save()
+    await updateTeacher(req.params.id, req.body);
     res.status(200).send({message: ""});
-
 });
 
 router.post('/teachers', [adminAuth], async (req, res) => {
@@ -218,6 +206,12 @@ router.get('/teachers', [adminAuth], async (req, res) => {
         res.status(404).send("Error");
     });
 });
+
+router.put( '/profile', [auth], async (req, res) => {
+    const teacher = await Teacher.findOne({where: {token: req.cookies.token}});
+    await updateTeacher(teacher.id, req.body);
+    res.status(200).send({ message: ""});
+})
 
 router.post('/accept/:id', [auth], async (req, res) => {
     const pendRequest = await pendingAccept.findOne({where: {id: req.params.id}});
