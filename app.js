@@ -17,6 +17,7 @@ const {acceptRequestById, rejectRequestById} = require('./models/pending/utils')
 const {sendAcceptRequestMessageForUser, sendRejectRequestMessageToUser} = require('./controller/teacher/callback_query');
 const Admin = require('./models/admin');
 const TimeSlot = require('./models/timeSlot');
+const sendPreviousStudent = require('./controller/user/sent_previes_student');
 
 expressApp.use(cors({credentials: true, origin: process.env.FRONT_HOST || "http://localhost:8080"}));
 
@@ -370,6 +371,6 @@ sequelize
 // sendToEmpties.sendEmptyTeacher();
 // sendToEmpties.sendEmptyTimeSlot();
 // sendToEmpties.sendForCompleteInfo();
-
+sendPreviousStudent().then();
 
 

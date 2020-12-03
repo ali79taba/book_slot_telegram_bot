@@ -7,15 +7,24 @@ const bookingTime = require('../bookingTime');
 const studentShowRequest = require('./requests');
 
 
-exports.updateState = (chatId, state) => {
-    LastRequest.findOne({where: {chatId: chatId}}).then(lastRequest => {
-        if (lastRequest) {
-            lastRequest.state = state;
-            lastRequest.save();
-        } else {
-            LastRequest.create({chatId: chatId, state: state});
-        }
-    })
+exports.commands = [
+    '/show_requests',
+    '/delete_slot',
+    '/show_slots',
+    '/book_time',
+    '/show_teachers',
+    '/start',
+]
+
+
+exports.updateState = async (chatId, state) => {
+    const lastRequest = await LastRequest.findOne({where: {chatId: chatId}})
+    if (lastRequest) {
+        lastRequest.state = state;
+        lastRequest.save();
+    } else {
+        LastRequest.create({chatId: chatId, state: state});
+    }
 };
 
 exports.checkRoot =async (msg) => {
