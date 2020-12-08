@@ -20,8 +20,8 @@ exports.setPhoneNumber = (chatId) => {
     //     });
 };
 
-function getFieldAnother(chatId) {
-    functionHandler.updateState(chatId, 'set_another_field');
+exports.getFieldAnother = async function (chatId) {
+    await functionHandler.updateState(chatId, 'set_another_field');
     bot.bot.sendMessage(chatId, 'نام رشته خود را وارد کنید');
     // bot.bot.sendMessage(chatId, 'نام رشته خود را وارد کنید', {reply_markup: JSON.stringify({force_reply: true})})
     //     .then(sentMessage => {
@@ -50,75 +50,60 @@ exports.setField = (chatId) => {
         })
     };
     // console.log(options);
-    bot.bot.sendMessage(chatId, 'رشته ی خود را انتخاب کنید', options).then((msg) => {
-        bot.bot.once('callback_query', (msg) => {
-            const value = msg.data;
-            const chatId = msg.message.chat.id;
-            console.log("in callback query user enter field : ", value, " ", chatId);
-            if (value === 'سایر') {
-                console.log("IN SAYER");
-                getFieldAnother(chatId);
-            } else {
-                register.setField(chatId, value);
-            }
-        })
-    })
+    functionHandler.updateState(chatId, 'setField').then(()=> {
+        bot.bot.sendMessage(chatId, 'رشته ی خود را انتخاب کنید', options);
+    });
 };
 
 exports.setGerayesh = (chatId, field) => {
-    functionHandler.updateState(chatId, "set_gerayesh");
-    let field_object = fields.find(o => o.name === field);
-    if(!field_object){
-        console.log("enter your not default gerayesh");
-        let response = "گرایش خود را وارد کنید.";
-        bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
-            .then(sentMessage => {
-                bot.bot.onReplyToMessage(
-                    sentMessage.chat.id,
-                    sentMessage.message_id,
-                    (msg)=>{
-                        register.setGerayesh(msg.chat.id, msg.text);
-                    }
-                );
-            });
-        return;
-    }
-    if(field_object.gerayesh.length > 0){
-        const inline_keyboard = [];
-        const gerayesh = field_object.gerayesh;
-        for (const key in gerayesh) {
-            inline_keyboard.push([{
-                text: gerayesh[key],
-                callback_data: gerayesh[key],
-            }])
+    functionHandler.updateState(chatId, "set_gerayesh").then(_=>{
+        let field_object = fields.find(o => o.name === field);
+        if(!field_object){
+            console.log("enter your not default gerayesh");
+            let response = "گرایش خود را وارد کنید.";
+            bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
+                .then(sentMessage => {
+                    bot.bot.onReplyToMessage(
+                        sentMessage.chat.id,
+                        sentMessage.message_id,
+                        (msg)=>{
+                            register.setGerayesh(msg.chat.id, msg.text);
+                        }
+                    );
+                });
+            return;
         }
-        const options = {
-            reply_markup: JSON.stringify({
-                inline_keyboard: inline_keyboard
-            })
-        };
-        functionHandler.updateState(chatId, 'get_uni');
-        bot.bot.sendMessage(chatId, 'گرایش خود را انتخاب کنید', options).then((msg) => {
-            bot.bot.once('callback_query', (msg) => {
-                const value = msg.data;
-                const chatId = msg.message.chat.id;
-                register.setGerayesh(chatId, value)
-            })
-        })
+        if(field_object.gerayesh.length > 0){
+            const inline_keyboard = [];
+            const gerayesh = field_object.gerayesh;
+            for (const key in gerayesh) {
+                inline_keyboard.push([{
+                    text: gerayesh[key],
+                    callback_data: gerayesh[key],
+                }])
+            }
+            const options = {
+                reply_markup: JSON.stringify({
+                    inline_keyboard: inline_keyboard
+                })
+            };
+            functionHandler.updateState(chatId, 'setGerayesh');
+            bot.bot.sendMessage(chatId, 'گرایش خود را انتخاب کنید', options)
 
-    }else{
-        let response = "گرایش خود را وارد کنید.";
-        bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
-            .then(sentMessage => {
-                bot.bot.onReplyToMessage(
-                    sentMessage.chat.id,
-                    sentMessage.message_id,
-                    (msg)=>{
-                        register.setGerayesh(msg.chat.id, msg.text);
-                    }
-                );
-            });
-    }
+        }else{
+            let response = "گرایش خود را وارد کنید.";
+            bot.bot.sendMessage(chatId, response, {reply_markup: JSON.stringify({force_reply: true})})
+                .then(sentMessage => {
+                    bot.bot.onReplyToMessage(
+                        sentMessage.chat.id,
+                        sentMessage.message_id,
+                        (msg)=>{
+                            register.setGerayesh(msg.chat.id, msg.text);
+                        }
+                    );
+                });
+        }
+    });
 };
 
 exports.setReason = (chatId) => {
@@ -145,12 +130,8 @@ exports.setReason = (chatId) => {
             inline_keyboard: inline_keyboard
         })
     };
-    bot.bot.sendMessage(chatId, response, options).then(()=>{
-        bot.bot.once('callback_query', (msg) => {
-            const value = msg.data;
-            const chatId = msg.message.chat.id;
-            register.setReasonQuestion(chatId, value)
-        })
+    functionHandler.updateState(chatId, 'setReason').then(()=>{
+        bot.bot.sendMessage(chatId, response, options);
     });
 }
 

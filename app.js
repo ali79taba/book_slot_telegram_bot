@@ -314,7 +314,7 @@ bot.on('message', async (msg) => {
 // bot.onText(/\/delete_slot/, bookingTime.SelectSlotForDelete);
 // bot.onText(/\/show_requests/, studentShowRequest.request_info);
 bot.on('callback_query', (msg) => {
-    userCallbackHandler(msg);
+    userCallbackHandler(msg).then();
 });
 
 
@@ -371,6 +371,6 @@ sequelize
 // sendToEmpties.sendEmptyTeacher();
 // sendToEmpties.sendEmptyTimeSlot();
 // sendToEmpties.sendForCompleteInfo();
-sendPreviousStudent().then();
+// sendPreviousStudent().then();
 
 

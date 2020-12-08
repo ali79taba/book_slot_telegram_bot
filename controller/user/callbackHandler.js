@@ -3,6 +3,7 @@ const register = require('../../controller/register');
 const LastRequest =require('../../models/last_request');
 const voteNotHaveSlot =  require('./vote_not_have_slot');
 const functionHandler = require('../../controller/user/function_handler');
+const {getFieldAnother} = require("../../view/register");
 
 
 module.exports = async (msg)=>{
@@ -12,6 +13,7 @@ module.exports = async (msg)=>{
     if(arguments[0] === variable.GRADE){
         arguments.splice(0,1);
         console.log(arguments[0]);
+        console.log("OK");
         register.setGrade(chatId, arguments[0]);
     }else if(arguments[0] === 'start'){
         console.log("in call back start");
@@ -26,5 +28,7 @@ module.exports = async (msg)=>{
         }
         await functionHandler.checkRoot(msg).catch(e=>{console.log(e)});
         await functionHandler.doRequests(msg);
+    }else {
+        await functionHandler.doRequestsWithChatId(chatId, data);
     }
 };

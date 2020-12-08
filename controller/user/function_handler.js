@@ -5,6 +5,7 @@ const teacherView = require('../../view/show_teachers');
 const Show_teachers = require("../show_teachers");
 const bookingTime = require('../bookingTime');
 const studentShowRequest = require('./requests');
+const {getFieldAnother} = require("../../view/register");
 
 
 exports.commands = [
@@ -21,7 +22,7 @@ exports.updateState = async (chatId, state) => {
     const lastRequest = await LastRequest.findOne({where: {chatId: chatId}})
     if (lastRequest) {
         lastRequest.state = state;
-        lastRequest.save();
+        await lastRequest.save();
     } else {
         LastRequest.create({chatId: chatId, state: state});
     }
@@ -61,12 +62,23 @@ exports.checkRoot =async (msg) => {
     await last.save();
 };
 
+exports.doRequestsWithChatId = async function (chatId, data){
+    await this.doRequests({
+        text: data,
+        chat: {
+            id : chatId
+        }
+    })
+}
+
 exports.doRequests = async (msg) => {
     const last = await LastRequest.findOne({where: {chatId: msg.chat.id}});
     if(!last){
         return;
     }
 
+    const chatId = msg.chat.id;
+    const value = msg.text;
     const state = last.state;
     console.log(state);
     switch (state) {
@@ -79,11 +91,25 @@ exports.doRequests = async (msg) => {
         case 'get_phone_number':
             register.setPhoneNumber(msg);
             break;
+        case 'setField':
+            if (value === 'سایر') {
+                console.log("IN SAYER");
+                getFieldAnother(chatId).then();
+            } else {
+                register.setField(chatId, value);
+            }
+            break;
+        case 'setGerayesh':
+            register.setGerayesh(chatId, value)
+            break;
         case 'set_another_field':
             register.setField(msg.chat.id, msg.text);
             break;
         case 'get_uni':
             register.setUni(msg).then();
+            break;
+        case 'setReason':
+            register.setReasonQuestion(chatId, value)
             break;
         case 'setIntresting':
             register.setIntresting(msg);

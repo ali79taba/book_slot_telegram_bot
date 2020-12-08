@@ -59,7 +59,6 @@ exports.setField = (chatId, value) => {
 };
 
 exports.setGrade =async (chatId, grade)=>{
-
     const user = await User.findOne({where:{chatId:chatId}});
     if(user){
         user.grade = grade;
@@ -126,6 +125,7 @@ function getUni(chatId){
 }
 
 exports.setGerayesh = (chatId, value) => {
+    functionHandler.updateState(chatId, 'get_uni');
     User.findAll({where: {chatId: chatId}})
         .then(user => {
             if (user.length > 0) {
