@@ -21,11 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1ae90207-4a08-4af8-936c-d3b68e18ac0a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/user/callbackHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user/callbackHandler.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/user/function_handler.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/user/function_handler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/view/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/view/register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/show_teachers.js" beforeDir="false" afterPath="$PROJECT_DIR$/view/show_teachers.js" afterDir="false" />
     </list>
     <list id="486349cb-b8de-4087-80a1-eca353691afe" name="local" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -283,7 +281,7 @@
       <workItem from="1606934842492" duration="1891000" />
       <workItem from="1607012887821" duration="1282000" />
       <workItem from="1607154395721" duration="407000" />
-      <workItem from="1607454994372" duration="5622000" />
+      <workItem from="1607454994372" duration="6424000" />
     </task>
     <task id="LOCAL-00001" summary="version 3">
       <created>1585604533652</created>
@@ -369,7 +367,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607013486494</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="fix buttons in bot">
+      <created>1607461632331</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1607461632331</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -409,7 +414,8 @@
     <MESSAGE value="fix reason question" />
     <MESSAGE value="fix teacher data update" />
     <MESSAGE value="add message for start wit bot" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="fix buttons in bot" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix buttons in bot" />
   </component>
   <component name="WindowStateProjectService">
     <state x="418" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603613241839">
@@ -420,6 +426,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="555" y="238" width="800" height="637" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1607012884443" />
+    <state x="182" y="121" width="1536" height="879" key="DiffContextDialog" timestamp="1607461694864">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="182" y="121" width="1536" height="879" key="DiffContextDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1607461694864" />
     <state x="744" y="318" width="424" height="491" key="FileChooserDialogImpl" timestamp="1603613220398">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -497,10 +507,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="793" y="425" width="324" height="264" key="VCS.EditChangelistDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1606072992138" />
-    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1607013493023">
+    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1607461697658">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1607013493023" />
+    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1607461697658" />
     <state x="741" y="468" width="428" height="177" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1604042554123">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -509,10 +519,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="486" y="272" width="938" height="569" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.27.1920.1053@0.27.1920.1053" timestamp="1606508617834" />
-    <state x="258" y="27" width="1444" height="984" key="find.popup" timestamp="1607460188235">
+    <state x="258" y="27" width="1444" height="984" key="find.popup" timestamp="1607462269719">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="258" y="27" width="1444" height="984" key="find.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1607460188235" />
+    <state x="258" y="27" width="1444" height="984" key="find.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1607462269719" />
     <state x="258" y="29" width="1444" height="982" key="find.popup/0.29.1920.1051@0.29.1920.1051" timestamp="1600351428882" />
     <state x="624" y="252" key="run.anything.popup" timestamp="1607460793663">
       <screen x="0" y="27" width="1920" height="1053" />
@@ -522,16 +532,5 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="623" y="259" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1606850587291" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/view/show_teachers.js</url>
-          <line>13</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -13,35 +13,36 @@ const Teacher = require('../models/teacher');
 function whichWant (msg, teacherId) {
     const chatId = msg.chat.id;
     teacherId = fix_number(teacherId);
-    Teacher.findOne({where: {id: teacherId}}).then(async teacher => {
-        if (teacher) {
-            // await show_one_teacher(chatId, teacher).catch(err => {
-            //     console.log("ERR WHILE SHOW TEACHER PIC");
-            // });
-            // let response = "۱. درخواست از استاد" + "\n" + "۲.نشان دادن زمان های خالی استاد";
-            // bot.bot
-            //     .sendMessage(chatId, response, {
-            //         reply_markup: JSON.stringify({force_reply: true})
-            //     })
-            //     .then(sentMessage => {
-            //         bot.bot.onReplyToMessage(
-            //             sentMessage.chat.id,
-            //             sentMessage.message_id,
-            //             (message) => {
-            //                 show_teachers_controloer.controlHandler(message, teacherId);
-            //             }
-            //             // show_teachers_controloer.controlHandler
-            //         );
-            //     });
-            msg.text = "1";
-            await show_teachers_controloer.controlHandler(msg, teacherId);
-        } else {
-            functionHadler.updateState(chatId, "");
-            bot.bot.sendMessage(chatId, "کد وارد شده غلط می باشد");
-            main_view.show_list(chatId);
-        }
+    functionHadler.updateState(chatId, '').then(_=>{
+        Teacher.findOne({where: {id: teacherId}}).then(async teacher => {
+            if (teacher) {
+                // await show_one_teacher(chatId, teacher).catch(err => {
+                //     console.log("ERR WHILE SHOW TEACHER PIC");
+                // });
+                // let response = "۱. درخواست از استاد" + "\n" + "۲.نشان دادن زمان های خالی استاد";
+                // bot.bot
+                //     .sendMessage(chatId, response, {
+                //         reply_markup: JSON.stringify({force_reply: true})
+                //     })
+                //     .then(sentMessage => {
+                //         bot.bot.onReplyToMessage(
+                //             sentMessage.chat.id,
+                //             sentMessage.message_id,
+                //             (message) => {
+                //                 show_teachers_controloer.controlHandler(message, teacherId);
+                //             }
+                //             // show_teachers_controloer.controlHandler
+                //         );
+                //     });
+                msg.text = "1";
+                await show_teachers_controloer.controlHandler(msg, teacherId);
+            } else {
+                functionHadler.updateState(chatId, "");
+                bot.bot.sendMessage(chatId, "کد وارد شده غلط می باشد");
+                main_view.show_list(chatId);
+            }
+        });
     });
-
 }
 
 exports.whichWant = whichWant;
@@ -86,17 +87,12 @@ exports.show_teachers = async (chatId, teachers) => {
         await bot.bot.sendMessage(chatId, response);
         functionHadler.updateState(chatId, '');
     } else {
-        bot.bot.once('callback_query', (msg) => {
-            const message = msg.message;
-            try{
-                whichWant(message, msg.data);
-            }catch (e) {
-                console.log("OK", e);
-            }
-        })
-        let caption = "";
-        response = "برای درخواست مشاوره از استاد کد استاد مورد نظر خود را انتخاب کنید\n";
-        functionHadler.updateState(chatId, '');
+        // bot.bot.once('callback_query', (msg) => {
+        //
+        // })
+        // let caption = "";
+        // response = "برای درخواست مشاوره از استاد کد استاد مورد نظر خود را انتخاب کنید\n";
+        await functionHadler.updateState(chatId, 'setTeacher');
         for (const i in teachers) {
             await show_one_teacher(chatId, teachers[i]).catch(err => {
                 console.log("ERR WHILE SHOW TEACHER PIC : ", err);

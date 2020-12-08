@@ -5,6 +5,7 @@ const teacherView = require('../../view/show_teachers');
 const Show_teachers = require("../show_teachers");
 const bookingTime = require('../bookingTime');
 const studentShowRequest = require('./requests');
+const {whichWant} = require("../../view/show_teachers");
 const {getFieldAnother} = require("../../view/register");
 
 
@@ -116,6 +117,13 @@ exports.doRequests = async (msg) => {
             break;
         case 'show_teachers':
             Show_teachers.showTeachers(msg);
+            break;
+        case 'setTeacher':
+            try{
+                whichWant(msg, value);
+            }catch (e) {
+                console.log("OK", e);
+            }
             break;
         case 'get_teacher_code':
             teacherView.whichWant(msg);

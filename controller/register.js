@@ -163,9 +163,7 @@ exports.setIntresting = (msg) => {
                 user[0].intresting = msg.text;
                 user[0].save();
                 const response = "مشخصات شما دریافت شد. در هر مرحله از کار، در صورت تمایل به اصلاح مشخصات، با دستور /start می توانید مشخصات ثبت نام خود را اصلاح کنید. \n" +
-                    "اکنون می توانید با دستور " +
-                    "/show_teachers" +
-                    " ، استاد های گرایش خود را مشاهده کنید.";
+                    "اکنون اساتید مربوط به گرایش تان را برایتان ارسال می کنیم"
                 bot.bot.sendMessage(chatId, response);
                 showTeacher.showTeachers(msg);
             }
